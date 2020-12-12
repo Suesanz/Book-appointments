@@ -8,17 +8,18 @@
     "eject": "expo eject"
   },
   "dependencies": {
+    "@react-navigation/native": "^5.8.10",
     "expo": "~39.0.2",
+    "expo-splash-screen": "^0.6.2",
     "expo-status-bar": "~1.0.2",
     "react": "16.13.1",
     "react-dom": "16.13.1",
     "react-native": "https://github.com/expo/react-native/archive/sdk-39.0.4.tar.gz",
-    "react-native-web": "~0.13.12",
-    "@react-navigation/native": "^5.8.10",
-    "expo-splash-screen": "^0.6.2",
+    "react-native-elements": "^2.0.4",
     "react-native-safe-area-context": "3.1.4",
     "react-native-screens": "~2.10.1",
-    "react-native-elements": "^2.0.4"
+    "react-native-web": "~0.13.12",
+    "validate.js": "^0.13.1"
   },
   "devDependencies": {
     "@babel/core": "~7.9.0",
