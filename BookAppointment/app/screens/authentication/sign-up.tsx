@@ -1,20 +1,21 @@
 import React, { useRef, useState } from 'react'
-import { Text, View, StyleSheet, ViewStyle, TextStyle } from "react-native"
+import { Text, View, StyleSheet, ViewStyle, TextStyle } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import { Button, Icon, Input } from "react-native-elements"
-import validate from "validate.js"
+import { Button, Icon, Input } from 'react-native-elements'
+import validate from 'validate.js'
+import { firebase } from '../../config/firebase-config'
 
 const styles = StyleSheet.create({
 
   Container: {
     flex: 1,
-    margin: 25,
+    margin: 25
   } as ViewStyle,
 
   HeaderContainer: {
     flex: 0.2,
     flexDirection: 'column',
-    justifyContent: 'flex-start',
+    justifyContent: 'flex-start'
   } as ViewStyle,
 
   WelcomeText: {
@@ -35,12 +36,12 @@ const styles = StyleSheet.create({
   } as ViewStyle,
 
   LoginButtonContainer: {
-    justifyContent: 'space-around',
+    justifyContent: 'space-around'
   } as ViewStyle,
 
   FooterContainer: {
     flex: 0.4,
-    justifyContent: 'space-between',
+    justifyContent: 'space-between'
   } as ViewStyle,
 
   FooterText: {
@@ -53,11 +54,18 @@ const styles = StyleSheet.create({
     justifyContent: 'center'
   } as ViewStyle,
 
-  RegisterText: {
+  SignInText: {
     justifyContent: 'center',
     alignItems: 'center',
-  } as ViewStyle
+    color: '#2089dc'
+  } as ViewStyle,
 
+  SignUpError: {
+    fontSize: 14,
+    textAlign: 'center',
+    height: 30,
+    color: 'red'
+  }as TextStyle
 })
 
 export const SignUp = (props: { navigation: { navigate: (arg0: string) => void } }) => {
@@ -67,6 +75,9 @@ export const SignUp = (props: { navigation: { navigate: (arg0: string) => void }
   const [emailError, setEmailError] = useState<string>('')
   const [passwordError, setPasswordError] = useState<string>('')
   const [nameError, setNameError] = useState<string>('')
+  const [signUpError, setSignUpError] = useState<string>('')
+
+  const [isLoading, setLoading] = useState<boolean>(false)
 
   const emailInputRef = useRef<Input>(null)
   const passwordInputRef = useRef<Input>(null)
@@ -77,8 +88,8 @@ export const SignUp = (props: { navigation: { navigate: (arg0: string) => void }
       presence: true,
       format: {
         pattern: /^[A-Za-z ]+$/,
-        message: function(value:String) {
-          return validate.format("^Please enter a valid name", {
+        message: function (value:String) {
+          return validate.format('^Please enter a valid name', {
             num: value
           })
         }
@@ -117,6 +128,7 @@ export const SignUp = (props: { navigation: { navigate: (arg0: string) => void }
   }
 
   const signUpHandler = () => {
+    setLoading(true)
     nameInputRef.current && nameInputRef.current.blur()
     emailInputRef.current && emailInputRef.current.blur()
     passwordInputRef.current && passwordInputRef.current.blur()
@@ -128,9 +140,36 @@ export const SignUp = (props: { navigation: { navigate: (arg0: string) => void }
     error?.password && setPasswordError(error.password[0])
 
     if (!error?.username && !error?.email && !error?.password) {
-      props.navigation.navigate('HomeScreen')
+      firebase.default
+        .auth()
+        .createUserWithEmailAndPassword(emailValue, passwordValue)
+        .then((response:any) => {
+          console.log('response', JSON.stringify(response))
+          const uid = response.user.uid
+          const data = {
+            id: uid,
+            email: emailValue,
+            name: nameValue
+          }
+          const usersRef = firebase.default.firestore().collection('/authUsers')
+          usersRef
+            .doc(uid)
+            .set(data)
+            .then(() => {
+              console.log('here')
+              props.navigation.navigate('HomeScreen')
+            })
+            .catch((error:firebase.default.firestore.FirestoreError) => {
+              console.log('Firestore error: ', error.message)
+              setSignUpError(error.message)
+            })
+        })
+        .catch((error:firebase.default.FirebaseError) => {
+          console.log('Registration Error: ', error.message)
+          setSignUpError(error.message)
+        })
     }
-
+    setLoading(false)
   }
 
   return (
@@ -173,13 +212,14 @@ export const SignUp = (props: { navigation: { navigate: (arg0: string) => void }
           secureTextEntry={true}
         />
       </View>
+      <Text style={styles.SignUpError}>{signUpError}</Text>
       <View style={styles.FooterContainer}>
         <View style={styles.LoginButtonContainer}>
-          <Button title={'Sign up'} containerStyle={styles.LoginButton} onPress={signUpHandler}/>
+          <Button title={'Sign up'} containerStyle={styles.LoginButton} onPress={signUpHandler} loading={isLoading}/>
           <Button title={'Connect with Google'} containerStyle={styles.LoginButton}
             icon={
               <Icon
-                type={"font-awesome-5"}
+                type={'font-awesome-5'}
                 name={'google'}
                 iconStyle={{ marginHorizontal: 8 }}
               />
@@ -187,7 +227,7 @@ export const SignUp = (props: { navigation: { navigate: (arg0: string) => void }
           />
         </View>
         <Text style={styles.FooterText}>Already a user,
-          <Text onPress={() => props.navigation.navigate('LoginScreen')}> Sign In?</Text>
+          <Text style={styles.SignInText} onPress={() => props.navigation.navigate('LoginScreen')}> Sign In?</Text>
         </Text>
       </View>
     </SafeAreaView>

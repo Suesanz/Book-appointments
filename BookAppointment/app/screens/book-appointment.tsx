@@ -1,78 +1,78 @@
-import React, {useState} from 'react';
-import {StyleSheet, Text, TextStyle, View, ViewStyle} from 'react-native';
-import {SafeAreaView} from 'react-native-safe-area-context';
-import {Button, Icon, Input} from 'react-native-elements';
+import React, { useState } from 'react'
+import { StyleSheet, Text, TextStyle, View, ViewStyle } from 'react-native'
+import { SafeAreaView } from 'react-native-safe-area-context'
+import { Button, Icon, Input } from 'react-native-elements'
 
 const styles = StyleSheet.create({
   Container: {
     flex: 1,
-    margin: 25,
+    margin: 25
   } as ViewStyle,
 
   HeaderContainer: {
     flex: 0.2,
     flexDirection: 'column',
-    justifyContent: 'flex-start',
+    justifyContent: 'flex-start'
   } as ViewStyle,
 
   WelcomeText: {
     fontSize: 30,
     fontWeight: 'bold',
-    color: '#0B0F19',
+    color: '#0B0F19'
   } as TextStyle,
 
   SubWelcomeText: {
     fontSize: 20,
     fontWeight: 'normal',
-    color: '#9EABB5',
+    color: '#9EABB5'
   } as TextStyle,
 
   InputContainer: {
     flex: 0.5,
-    justifyContent: 'center',
+    justifyContent: 'center'
   } as ViewStyle,
 
   LoginButtonContainer: {
-    justifyContent: 'space-around',
+    justifyContent: 'space-around'
   } as ViewStyle,
 
   FooterContainer: {
     flex: 0.4,
-    justifyContent: 'space-between',
+    justifyContent: 'space-between'
   } as ViewStyle,
 
   FooterText: {
     fontSize: 14,
-    textAlign: 'center',
+    textAlign: 'center'
   } as TextStyle,
 
   LoginButton: {
     marginVertical: 10,
-    justifyContent: 'center',
+    justifyContent: 'center'
   } as ViewStyle,
 
   RegisterText: {
     justifyContent: 'center',
-    alignItems: 'center',
-  } as ViewStyle,
-});
+    alignItems: 'center'
+  } as ViewStyle
+})
 
 export const BookAppointment = (props) => {
-  const [nameValue, setNameValue] = useState<string>('');
-  const [emailValue, setEmailValue] = useState<string>('');
-  const [passwordValue, setPasswordValue] = useState<string>('');
+  const [nameValue, setNameValue] = useState<string>('')
+  const [emailValue, setEmailValue] = useState<string>('')
+  const [passwordValue, setPasswordValue] = useState<string>('')
 
   const onEmailChangeText = (value: string) => {
-    setEmailValue(value);
-  };
+    setEmailValue(value)
+  }
 
   const onPasswordChangeText = (value: string) => {
-    setPasswordValue(value);
-  };
+    setPasswordValue(value)
+  }
 
   const onNameChangeText = (value: string) => {
-    setNameValue(value);
-  };
+    setNameValue(value)
+  }
 
   return (
     <SafeAreaView style={styles.Container}>
@@ -88,7 +88,7 @@ export const BookAppointment = (props) => {
           placeholder={'Full name'}
           value={nameValue}
           leftIcon={<Icon name={'face'} />}
-          leftIconContainerStyle={{marginRight: 8}}
+          leftIconContainerStyle={{ marginRight: 8 }}
           onChangeText={onNameChangeText}
           autoFocus
         />
@@ -96,7 +96,7 @@ export const BookAppointment = (props) => {
           placeholder={'Email Id'}
           value={emailValue}
           leftIcon={<Icon name={'email'} />}
-          leftIconContainerStyle={{marginRight: 8}}
+          leftIconContainerStyle={{ marginRight: 8 }}
           onChangeText={onEmailChangeText}
         />
       </View>
@@ -107,5 +107,5 @@ export const BookAppointment = (props) => {
         />
       </View>
     </SafeAreaView>
-  );
-};
+  )
+}

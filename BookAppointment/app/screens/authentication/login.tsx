@@ -1,20 +1,21 @@
 import React, { useRef, useState } from 'react'
-import { Text, View, StyleSheet, ViewStyle, TextStyle } from "react-native"
+import { Text, View, StyleSheet, ViewStyle, TextStyle } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import { Button, Icon, Input } from "react-native-elements"
+import { Button, Icon, Input } from 'react-native-elements'
 import validate from 'validate.js'
+import { firebase } from '../../config/firebase-config'
 
 const styles = StyleSheet.create({
 
   Container: {
     flex: 1,
-    margin: 25,
+    margin: 25
   } as ViewStyle,
 
   HeaderContainer: {
     flex: 0.2,
     flexDirection: 'column',
-    justifyContent: 'flex-start',
+    justifyContent: 'flex-start'
   } as ViewStyle,
 
   WelcomeText: {
@@ -35,12 +36,12 @@ const styles = StyleSheet.create({
   } as ViewStyle,
 
   LoginButtonContainer: {
-    justifyContent: 'space-around',
+    justifyContent: 'space-around'
   } as ViewStyle,
 
   FooterContainer: {
     flex: 0.4,
-    justifyContent: 'space-between',
+    justifyContent: 'space-between'
   } as ViewStyle,
 
   FooterText: {
@@ -50,14 +51,21 @@ const styles = StyleSheet.create({
 
   LoginButton: {
     marginVertical: 10,
-    justifyContent: 'center'
+    justifyContent: 'center',
   } as ViewStyle,
 
   RegisterText: {
     justifyContent: 'center',
     alignItems: 'center',
-  } as ViewStyle
+    color: '#2089dc'
+  } as ViewStyle,
 
+  LoginError: {
+    fontSize: 14,
+    textAlign: 'center',
+    height: 30,
+    color: 'red'
+  }
 })
 
 export const Login = (props: { navigation: { navigate: (arg0: string) => void } }) => {
@@ -65,6 +73,9 @@ export const Login = (props: { navigation: { navigate: (arg0: string) => void } 
   const [passwordValue, setPasswordValue] = useState<string>('')
   const [emailError, setEmailError] = useState<string>('')
   const [passwordError, setPasswordError] = useState<string>('')
+  const [loginError, setLoginError] = useState<string>('')
+
+  const [isLoading, setLoading] = useState<boolean>(false)
 
   const emailInputRef = useRef<Input>(null)
   const passwordInputRef = useRef<Input>(null)
@@ -98,7 +109,8 @@ export const Login = (props: { navigation: { navigate: (arg0: string) => void } 
     setPasswordValue(value)
   }
 
-  const loginHandler = () => {
+  const loginHandler = async () => {
+    setLoading(true)
     emailInputRef.current && emailInputRef.current.blur()
     passwordInputRef.current && passwordInputRef.current.blur()
 
@@ -108,8 +120,28 @@ export const Login = (props: { navigation: { navigate: (arg0: string) => void } 
    error?.password && setPasswordError(error.password[0])
 
    if (!error?.email && !error?.password) {
-     props.navigation.navigate('HomeScreen')
+     try {
+       const data: any = await firebase.default.auth().signInWithEmailAndPassword(emailValue, passwordValue)
+       const uid = data.user.uid
+       const usersRef = firebase.default.firestore().collection('users')
+       try {
+         const user:firebase.default.firestore.DocumentData = await usersRef.doc(uid).get()
+         if (!user.exists) {
+           setLoginError('User does not exist!')
+           return
+         }
+         const userInfo = user.data()
+         console.log('user', JSON.stringify(userInfo))
+         props.navigation.navigate('HomeScreen')
+       } catch (error) {
+         console.log('Firestore error:', error)
+         setLoginError(error.message)
+       }
+     } catch (error) {
+       setLoginError('Invalid credentials!')
+     }
    }
+   setLoading(false)
   }
 
   return (
@@ -145,17 +177,22 @@ export const Login = (props: { navigation: { navigate: (arg0: string) => void } 
           secureTextEntry
         />
       </View>
+      <Text style={styles.LoginError}>{loginError}</Text>
       <View style={styles.FooterContainer}>
         <View style={styles.LoginButtonContainer}>
           <Button
             title={'Login'}
+            buttonStyle={{ justifyContent: 'center' }}
             containerStyle={styles.LoginButton}
             titleStyle={{ fontSize: 16 }}
-            onPress={loginHandler}/>
+            onPress={loginHandler}
+            loading={isLoading}
+            disabled={isLoading}
+          />
           <Button title={'Connect with Google'} containerStyle={styles.LoginButton}
             icon={
               <Icon
-                type={"font-awesome-5"}
+                type={'font-awesome-5'}
                 name={'google'}
                 iconStyle={{ marginHorizontal: 8 }}
               />
@@ -163,7 +200,7 @@ export const Login = (props: { navigation: { navigate: (arg0: string) => void } 
             titleStyle={{ fontSize: 16 }}/>
         </View>
         <Text style={styles.FooterText}>I am a new user,
-          <Text onPress={() => props.navigation.navigate('SignUpScreen')}> Register?</Text>
+          <Text style={styles.RegisterText} onPress={() => props.navigation.navigate('SignUpScreen')}> Register?</Text>
         </Text>
       </View>
     </SafeAreaView>

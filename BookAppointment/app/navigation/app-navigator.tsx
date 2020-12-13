@@ -5,7 +5,6 @@ import { Login, BookAppointment, SignUp, Home } from '../screens'
 const AuthStack = createNativeStackNavigator()
 
 const AuthNavigator = () => {
-
   return (
     <AuthStack.Navigator screenOptions={{ headerBackTitleVisible: false, headerShown: true }}>
       <AuthStack.Screen name={'LoginScreen'} component={Login}/>
