@@ -1,19 +1,19 @@
 import React from 'react'
-import { Text, View, StyleSheet, ViewStyle, TextStyle, TouchableOpacity } from "react-native"
+import { Text, View, StyleSheet, ViewStyle, TextStyle, TouchableOpacity } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import { Button } from "react-native-elements"
+import { Button } from 'react-native-elements'
 
 const styles = StyleSheet.create({
 
   Container: {
     flex: 1,
-    margin: 25,
+    margin: 25
   } as ViewStyle,
 
   HeaderContainer: {
     // flex: 0.2,
     flexDirection: 'column',
-    justifyContent: 'flex-start',
+    justifyContent: 'flex-start'
   } as ViewStyle,
 
   WelcomeText: {
@@ -35,12 +35,11 @@ const styles = StyleSheet.create({
     marginVertical: 30,
     justifyContent: 'center',
     alignItems: 'center'
-  } as ViewStyle,
+  } as ViewStyle
 
 })
 
 export const Home = (props) => {
-
   return (
     <SafeAreaView style={styles.Container} >
       {/* <View style={styles.HeaderContainer}> */}
