@@ -122,12 +122,12 @@ export const SignUp = (props: { navigation: { navigate: (arg0: string) => void }
   const onPasswordChangeText = (value:string) => {
     setPasswordValue(value)
   }
-  // /^[A-Za-z ]+$/.test(x)
+
   const onNameChangeText = (value:string) => {
     setNameValue(value)
   }
 
-  const signUpHandler = () => {
+  const signUpHandler = async () => {
     setLoading(true)
     nameInputRef.current && nameInputRef.current.blur()
     emailInputRef.current && emailInputRef.current.blur()
@@ -140,35 +140,31 @@ export const SignUp = (props: { navigation: { navigate: (arg0: string) => void }
     error?.password && setPasswordError(error.password[0])
 
     if (!error?.username && !error?.email && !error?.password) {
-      firebase.default
-        .auth()
-        .createUserWithEmailAndPassword(emailValue, passwordValue)
-        .then((response:any) => {
-          console.log('response', JSON.stringify(response))
-          const uid = response.user.uid
-          const data = {
-            id: uid,
-            email: emailValue,
-            name: nameValue
-          }
-          const usersRef = firebase.default.firestore().collection('/authUsers')
-          usersRef
-            .doc(uid)
-            .set(data)
-            .then(() => {
-              console.log('here')
-              props.navigation.navigate('HomeScreen')
-            })
-            .catch((error:firebase.default.firestore.FirestoreError) => {
-              console.log('Firestore error: ', error.message)
-              setSignUpError(error.message)
-            })
-        })
-        .catch((error:firebase.default.FirebaseError) => {
-          console.log('Registration Error: ', error.message)
+      try {
+        const response: any = await firebase.default.auth().createUserWithEmailAndPassword(emailValue, passwordValue)
+        const uid = response.user.uid
+
+        try {
+
+          const data = { id: uid, email: emailValue, name: nameValue }
+          const usersRef:firebase.default.firestore.DocumentData = firebase.default.firestore().collection('/authUsers')
+
+          await usersRef.doc(uid).set(data)
+          props.navigation.navigate('HomeScreen')
+
+        } catch (e) {
+
           setSignUpError(error.message)
-        })
+
+        }
+
+      } catch (e) {
+
+        setSignUpError(error.message)
+
+      }
     }
+
     setLoading(false)
   }
 

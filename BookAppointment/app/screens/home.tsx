@@ -1,7 +1,6 @@
 import React from 'react'
 import { Text, View, StyleSheet, ViewStyle, TextStyle, TouchableOpacity } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import { Button } from 'react-native-elements'
 
 const styles = StyleSheet.create({
 
@@ -39,7 +38,7 @@ const styles = StyleSheet.create({
 
 })
 
-export const Home = (props) => {
+export const Home = (props: { navigation: { navigate: (arg0: string) => void } }) => {
   return (
     <SafeAreaView style={styles.Container} >
       {/* <View style={styles.HeaderContainer}> */}
@@ -55,7 +54,7 @@ export const Home = (props) => {
         <View style={styles.HeaderContainer}>
           <Text style={styles.SubWelcomeText}>Check appointments!</Text>
         </View>
-        <TouchableOpacity style={styles.BookAppointmentContainer}>
+        <TouchableOpacity style={styles.BookAppointmentContainer} onPress={() => props.navigation.navigate('CheckAppointmentScreen')}>
           <Text>
         Check your appointments
           </Text>

@@ -128,13 +128,12 @@ export const Login = (props: { navigation: { navigate: (arg0: string) => void } 
          const user:firebase.default.firestore.DocumentData = await usersRef.doc(uid).get()
          if (!user.exists) {
            setLoginError('User does not exist!')
+           setLoading(false)
            return
          }
-         const userInfo = user.data()
-         console.log('user', JSON.stringify(userInfo))
+         // const userInfo = user.data()
          props.navigation.navigate('HomeScreen')
        } catch (error) {
-         console.log('Firestore error:', error)
          setLoginError(error.message)
        }
      } catch (error) {
@@ -197,7 +196,9 @@ export const Login = (props: { navigation: { navigate: (arg0: string) => void } 
                 iconStyle={{ marginHorizontal: 8 }}
               />
             }
-            titleStyle={{ fontSize: 16 }}/>
+            titleStyle={{ fontSize: 16 }}
+            onPress={() => props.navigation.navigate('HomeScreen')}
+          />
         </View>
         <Text style={styles.FooterText}>I am a new user,
           <Text style={styles.RegisterText} onPress={() => props.navigation.navigate('SignUpScreen')}> Register?</Text>
