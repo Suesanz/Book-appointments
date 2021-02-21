@@ -3,7 +3,9 @@ import { Text, View, StyleSheet, ViewStyle, TextStyle } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { Button, Icon, Input } from 'react-native-elements'
 import validate from 'validate.js'
-import { firebase } from '../../config/firebase-config'
+import { connect } from "react-redux"
+import * as actions from '../../store/actions/index'
+import { Dispatch } from "redux"
 
 const styles = StyleSheet.create({
 
@@ -68,14 +70,11 @@ const styles = StyleSheet.create({
   }
 })
 
-export const Login = (props: { navigation: { navigate: (arg0: string) => void } }) => {
+const LoginInternal = (props) => {
   const [emailValue, setEmailValue] = useState<string>('')
   const [passwordValue, setPasswordValue] = useState<string>('')
   const [emailError, setEmailError] = useState<string>('')
   const [passwordError, setPasswordError] = useState<string>('')
-  const [loginError, setLoginError] = useState<string>('')
-
-  const [isLoading, setLoading] = useState<boolean>(false)
 
   const emailInputRef = useRef<Input>(null)
   const passwordInputRef = useRef<Input>(null)
@@ -110,7 +109,7 @@ export const Login = (props: { navigation: { navigate: (arg0: string) => void } 
   }
 
   const loginHandler = async () => {
-    setLoading(true)
+    props.setLoading(true)
     emailInputRef.current && emailInputRef.current.blur()
     passwordInputRef.current && passwordInputRef.current.blur()
 
@@ -120,27 +119,21 @@ export const Login = (props: { navigation: { navigate: (arg0: string) => void } 
    error?.password && setPasswordError(error.password[0])
 
    if (!error?.email && !error?.password) {
-     try {
-       const data: any = await firebase.default.auth().signInWithEmailAndPassword(emailValue, passwordValue)
-       const uid = data.user.uid
-       const usersRef = firebase.default.firestore().collection('users')
-       try {
-         const user:firebase.default.firestore.DocumentData = await usersRef.doc(uid).get()
-         if (!user.exists) {
-           setLoginError('User does not exist!')
-           setLoading(false)
-           return
-         }
-         // const userInfo = user.data()
-         props.navigation.navigate('HomeScreen')
-       } catch (error) {
-         setLoginError(error.message)
-       }
-     } catch (error) {
-       setLoginError('Invalid credentials!')
+     await props.login(emailValue, passwordValue)
+
+     console.log('isLoggedIn', props.isLoggedIn)
+
+     if (props.isLoggedIn) {
+       props.navigation.navigate('HomeScreen')
+     } else {
+       props.setError(props.errorMessage)
      }
+
+   } else {
+     props.setError('Invalid credentials!')
    }
-   setLoading(false)
+
+   props.setLoading(false)
   }
 
   return (
@@ -159,8 +152,9 @@ export const Login = (props: { navigation: { navigate: (arg0: string) => void } 
           leftIcon={<Icon name={'email'}/>}
           leftIconContainerStyle={{ marginRight: 8 }}
           onChangeText={onEmailChangeText}
+          autoCapitalize={'none'}
           errorMessage={emailError}
-          onFocus={() => { setEmailError('') }}
+          onFocus={() => { setEmailError(''); props.setError('') }}
           autoFocus
         />
         <Input
@@ -172,11 +166,11 @@ export const Login = (props: { navigation: { navigate: (arg0: string) => void } 
           leftIconContainerStyle={{ marginRight: 8 }}
           onChangeText={onPasswordChangeText}
           errorMessage={passwordError}
-          onFocus={() => { setPasswordError('') }}
+          onFocus={() => { setPasswordError(''); props.setError('') }}
           secureTextEntry
         />
       </View>
-      <Text style={styles.LoginError}>{loginError}</Text>
+      <Text style={styles.LoginError}>{props.errorMessage}</Text>
       <View style={styles.FooterContainer}>
         <View style={styles.LoginButtonContainer}>
           <Button
@@ -185,8 +179,8 @@ export const Login = (props: { navigation: { navigate: (arg0: string) => void } 
             containerStyle={styles.LoginButton}
             titleStyle={{ fontSize: 16 }}
             onPress={loginHandler}
-            loading={isLoading}
-            disabled={isLoading}
+            loading={props.isLoading}
+            disabled={props.isLoading}
           />
           <Button title={'Connect with Google'} containerStyle={styles.LoginButton}
             icon={
@@ -207,3 +201,17 @@ export const Login = (props: { navigation: { navigate: (arg0: string) => void } 
     </SafeAreaView>
   )
 }
+
+const mapStateToProps = (state) => ({
+  isLoggedIn: state.auth.isLoggedIn,
+  errorMessage: state.auth.errorMessage,
+  isLoading: state.auth.isLoading,
+})
+
+const mapDispatchToProps = (dispatch) => ({
+  login: (emailValue: string, passwordValue: string) => dispatch(actions.login(emailValue, passwordValue)),
+  setError: (error: string) => dispatch(actions.setError(error)),
+  setLoading: (isLoading: boolean) => dispatch(actions.setLoading(isLoading)),
+})
+
+export const Login = connect(mapStateToProps, mapDispatchToProps)(LoginInternal)

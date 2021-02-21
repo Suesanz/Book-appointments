@@ -1,6 +1,6 @@
 import React from 'react'
 import { createNativeStackNavigator } from 'react-native-screens/native-stack'
-import { Login, BookAppointment, CheckAppointment, SignUp, Home } from '../screens'
+import { Login, BookAppointment, CheckAppointment, SignUp, Home, QRCode } from '../screens'
 
 const AuthStack = createNativeStackNavigator()
 
@@ -12,6 +12,7 @@ const AuthNavigator = () => {
       <AuthStack.Screen name={'HomeScreen'} component={Home}/>
       <AuthStack.Screen name={'BookAppointmentScreen'} component={BookAppointment}/>
       <AuthStack.Screen name={'CheckAppointmentScreen'} component={CheckAppointment}/>
+      <AuthStack.Screen name={'QRCodeScreen'} component={QRCode}/>
     </AuthStack.Navigator>
   )
 }

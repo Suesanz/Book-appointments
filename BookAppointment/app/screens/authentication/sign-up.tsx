@@ -1,9 +1,11 @@
 import React, { useRef, useState } from 'react'
-import { Text, View, StyleSheet, ViewStyle, TextStyle } from 'react-native'
+import { Text, View, StyleSheet, ViewStyle, TextStyle, TouchableOpacity, Image, Platform } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { Button, Icon, Input } from 'react-native-elements'
 import validate from 'validate.js'
-import { firebase } from '../../config/firebase-config'
+import * as actions from "../../store/actions"
+import { connect } from "react-redux"
+import { launchCamera, launchImageLibrary } from 'react-native-image-picker'
 
 const styles = StyleSheet.create({
 
@@ -13,9 +15,8 @@ const styles = StyleSheet.create({
   } as ViewStyle,
 
   HeaderContainer: {
-    flex: 0.2,
-    flexDirection: 'column',
-    justifyContent: 'flex-start'
+    // flex: 0.1,
+    justifyContent: 'flex-start',
   } as ViewStyle,
 
   WelcomeText: {
@@ -31,7 +32,7 @@ const styles = StyleSheet.create({
   } as TextStyle,
 
   InputContainer: {
-    flex: 0.5,
+    flex: 0.4,
     justifyContent: 'center'
   } as ViewStyle,
 
@@ -40,7 +41,7 @@ const styles = StyleSheet.create({
   } as ViewStyle,
 
   FooterContainer: {
-    flex: 0.4,
+    flex: 0.3,
     justifyContent: 'space-between'
   } as ViewStyle,
 
@@ -65,70 +66,88 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     height: 30,
     color: 'red'
-  }as TextStyle
+  } as TextStyle,
+
+  ProfileImageContainer: {
+    flex: 0.3,
+    justifyContent: 'center',
+    alignItems: 'center'
+  } as ViewStyle,
+
+  EditIconContainer: {
+    position: "absolute",
+    zIndex: 10,
+    bottom: 10,
+    right: 10,
+    alignSelf: 'flex-end'
+  } as ViewStyle
+
 })
 
-export const SignUp = (props: { navigation: { navigate: (arg0: string) => void } }) => {
+interface SignUpProps {
+  setLoading: (arg0: boolean) => void
+  signUp: (arg0: string, arg1: string) => any
+  isLoggedIn: boolean
+  navigation: { navigate: (arg0: string) => void }
+  setError: (arg0: string) => void
+  isLoading: boolean
+  errorMessage: string
+}
+
+const constraints = {
+  username: {
+    presence: true,
+    format: {
+      pattern: /^[A-Za-z ]+$/,
+      message: function (value: string) {
+        return validate.format('^Please enter a valid name', {
+          num: value
+        })
+      }
+    }
+  },
+
+  email: {
+    presence: {
+      message: '^Please enter an email address'
+    },
+    email: {
+      message: '^Please enter a valid email address'
+    }
+  },
+
+  password: {
+    presence: {
+      message: '^Please enter a password'
+    },
+    length: {
+      minimum: 6,
+      message: '^Your password must be at least 6 characters'
+    }
+  }
+}
+
+export const SignUpInternal = (props: SignUpProps) => {
   const [nameValue, setNameValue] = useState<string>('')
   const [emailValue, setEmailValue] = useState<string>('')
   const [passwordValue, setPasswordValue] = useState<string>('')
   const [emailError, setEmailError] = useState<string>('')
   const [passwordError, setPasswordError] = useState<string>('')
   const [nameError, setNameError] = useState<string>('')
-  const [signUpError, setSignUpError] = useState<string>('')
+  const [uri, setUri] = useState<string>(null)
 
-  const [isLoading, setLoading] = useState<boolean>(false)
+  const profileImageRef = useRef<Image>(null)
 
   const emailInputRef = useRef<Input>(null)
   const passwordInputRef = useRef<Input>(null)
   const nameInputRef = useRef<Input>(null)
 
-  const constraints = {
-    username: {
-      presence: true,
-      format: {
-        pattern: /^[A-Za-z ]+$/,
-        message: function (value:String) {
-          return validate.format('^Please enter a valid name', {
-            num: value
-          })
-        }
-      }
-    },
-
-    email: {
-      presence: {
-        message: '^Please enter an email address'
-      },
-      email: {
-        message: '^Please enter a valid email address'
-      }
-    },
-
-    password: {
-      presence: {
-        message: '^Please enter a password'
-      },
-      length: {
-        minimum: 6,
-        message: '^Your password must be at least 6 characters'
-      }
-    }
-  }
-  const onEmailChangeText = (value:string) => {
-    setEmailValue(value)
-  }
-
-  const onPasswordChangeText = (value:string) => {
-    setPasswordValue(value)
-  }
-
-  const onNameChangeText = (value:string) => {
-    setNameValue(value)
-  }
+  const onEmailChangeText = (value: string) => { setEmailValue(value) }
+  const onPasswordChangeText = (value: string) => { setPasswordValue(value) }
+  const onNameChangeText = (value: string) => { setNameValue(value) }
 
   const signUpHandler = async () => {
-    setLoading(true)
+    props.setLoading(true)
     nameInputRef.current && nameInputRef.current.blur()
     emailInputRef.current && emailInputRef.current.blur()
     passwordInputRef.current && passwordInputRef.current.blur()
@@ -140,40 +159,52 @@ export const SignUp = (props: { navigation: { navigate: (arg0: string) => void }
     error?.password && setPasswordError(error.password[0])
 
     if (!error?.username && !error?.email && !error?.password) {
-      try {
-        const response: any = await firebase.default.auth().createUserWithEmailAndPassword(emailValue, passwordValue)
-        const uid = response.user.uid
 
-        try {
+      await props.signUp(emailValue, passwordValue)
 
-          const data = { id: uid, email: emailValue, name: nameValue }
-          const usersRef:firebase.default.firestore.DocumentData = firebase.default.firestore().collection('/authUsers')
-
-          await usersRef.doc(uid).set(data)
-          props.navigation.navigate('HomeScreen')
-
-        } catch (e) {
-
-          setSignUpError(error.message)
-
-        }
-
-      } catch (e) {
-
-        setSignUpError(error.message)
-
+      if (props.isLoggedIn) {
+        props.navigation.navigate('HomeScreen')
       }
+
+    } else {
+      props.setError('Invalid credentials')
     }
 
-    setLoading(false)
+    props.setLoading(false)
+  }
+
+  const imageUploadHandler = async () => {
+    launchImageLibrary({ mediaType: 'photo' }, response => {
+      if (response.uri) {
+        setUri(response.uri)
+        // const src = Platform.OS === 'ios' ? 'src' : 'source'
+        // profileImageRef.current.setNativeProps({ [src]: response.uri })
+      } else {
+        setUri(null)
+      }
+    })
   }
 
   return (
     <SafeAreaView style={styles.Container} >
+
       <View style={styles.HeaderContainer}>
         <Text style={styles.WelcomeText}>Create Account,</Text>
         <Text style={styles.SubWelcomeText}> Sign up to get started!</Text>
       </View>
+
+      <View style={styles.ProfileImageContainer} >
+        <TouchableOpacity activeOpacity={0.6} style={{ borderRadius: 50 }} onPress={imageUploadHandler}>
+          {uri ? <Image ref={profileImageRef} source={{ uri }} resizeMode={'contain'}/>
+            : <>
+              <Icon name={'account-circle'} size={100} color={'#9EABB5'} />
+              <Icon name={'edit'} containerStyle={styles.EditIconContainer} />
+            </>
+          }
+
+        </TouchableOpacity>
+      </View>
+
       <View style={styles.InputContainer}>
         <Input
           ref={nameInputRef}
@@ -183,7 +214,7 @@ export const SignUp = (props: { navigation: { navigate: (arg0: string) => void }
           leftIconContainerStyle={{ marginRight: 8 }}
           onChangeText={onNameChangeText}
           errorMessage={nameError}
-          onFocus={() => setNameError('')}
+          onFocus={() => { setNameError(''); props.setError('') }}
           autoFocus
         />
         <Input
@@ -194,7 +225,7 @@ export const SignUp = (props: { navigation: { navigate: (arg0: string) => void }
           leftIconContainerStyle={{ marginRight: 8 }}
           onChangeText={onEmailChangeText}
           errorMessage={emailError}
-          onFocus={() => { setEmailError('') }}
+          onFocus={() => { setEmailError(''); props.setError('') }}
         />
         <Input
           ref={passwordInputRef}
@@ -204,14 +235,16 @@ export const SignUp = (props: { navigation: { navigate: (arg0: string) => void }
           leftIconContainerStyle={{ marginRight: 8 }}
           onChangeText={onPasswordChangeText}
           errorMessage={passwordError}
-          onFocus={() => { setPasswordError('') }}
+          onFocus={() => { setPasswordError(''); props.setError('') }}
           secureTextEntry={true}
         />
       </View>
-      <Text style={styles.SignUpError}>{signUpError}</Text>
+
+      <Text style={styles.SignUpError}>{props.errorMessage}</Text>
+
       <View style={styles.FooterContainer}>
         <View style={styles.LoginButtonContainer}>
-          <Button title={'Sign up'} containerStyle={styles.LoginButton} onPress={signUpHandler} loading={isLoading}/>
+          <Button title={'Sign up'} containerStyle={styles.LoginButton} onPress={signUpHandler} loading={props.isLoading}/>
           <Button title={'Connect with Google'} containerStyle={styles.LoginButton}
             icon={
               <Icon
@@ -226,6 +259,22 @@ export const SignUp = (props: { navigation: { navigate: (arg0: string) => void }
           <Text style={styles.SignInText} onPress={() => props.navigation.navigate('LoginScreen')}> Sign In?</Text>
         </Text>
       </View>
+
     </SafeAreaView>
   )
 }
+
+const mapStateToProps = (state) => ({
+  isLoggedIn: state.auth.isLoggedIn,
+  errorMessage: state.auth.errorMessage,
+  isLoading: state.auth.isLoading,
+  profileImageUri: state.auth.profileImageUri
+})
+
+const mapDispatchToProps = (dispatch) => ({
+  signUp: (emailValue: string, passwordValue: string) => dispatch(actions.signUp(emailValue, passwordValue)),
+  setError: (error: string) => dispatch(actions.setError(error)),
+  setLoading: (isLoading: boolean) => dispatch(actions.setLoading(isLoading)),
+})
+
+export const SignUp = connect(mapStateToProps, mapDispatchToProps)(SignUpInternal)
