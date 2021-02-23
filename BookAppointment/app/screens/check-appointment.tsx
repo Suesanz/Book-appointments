@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import {
   Animated,
   Dimensions,
-  FlatList,
+  FlatList, Image, ImageBackground,
   StyleSheet,
   Text,
   TextStyle,
@@ -21,8 +21,11 @@ import AVATAR2 from './assets/avatar/avatar-2.svg'
 import AVATAR3 from './assets/avatar/avatar-3.svg'
 import AVATAR4 from './assets/avatar/avatar-4.svg'
 import AVATAR5 from './assets/avatar/avatar-5.svg'
+import Empty from './assets/empty.json'
 
 import _ from 'lodash'
+import { fonts } from "../theme/font"
+import { CardView } from "../components/card-view-animated"
 
 const avatar = {
   0: AVATAR1,
@@ -30,6 +33,13 @@ const avatar = {
   2: AVATAR3,
   3: AVATAR4,
   4: AVATAR5,
+}
+
+const cards = {
+  0: require('./assets/card1.png'),
+  1: require('./assets/card2.png'),
+  2: require('./assets/card3.png'),
+  3: require('./assets/card4.png'),
 }
 
 const styles = StyleSheet.create({
@@ -69,26 +79,26 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'space-around',
     alignItems: 'center',
-    borderWidth: StyleSheet.hairlineWidth,
-    height: 120,
+    // borderWidth: StyleSheet.hairlineWidth,
+    height: 150,
     borderRadius: 10,
-    shadowColor: '#000000',
-    shadowOffset: { width: 12, height: 12 },
-    shadowRadius: 10,
-    elevation: 10,
-    padding: 10,
-    borderColor: '#2288DC',
+    // marginTop: 10,
+    overflow: 'hidden',
+    // padding: 10,
+    // borderColor: '#2288DC',
     // backgroundColor: '#2288DC'
   } as ViewStyle,
 
   ListHeaderText: {
-    fontSize: 14,
-    color: '#0B0F19'
+    fontFamily: fonts.regular,
+    fontSize: 20,
+    color: '#ffffff'
   } as TextStyle,
 
   ListHeaderName: {
-    fontSize: 14,
-    color: '#333a61'
+    fontFamily: fonts.bold,
+    fontSize: 22,
+    color: '#ffffff'
   } as TextStyle,
 
   ItemSeparator: {
@@ -116,45 +126,45 @@ const renderItemSeparator = () => {
 export const CheckAppointment = (props) => {
 
   const [list, setList] = useState([
-    {
-      appointerName: 'John',
-      status: 200,
-      id: 1
-    }, {
-      appointerName: 'John2',
-      status: 200,
-      id: 1
-    }, {
-      appointerName: 'John3',
-      status: 200,
-      id: 1
-    },
-    {
-      appointerName: 'John4',
-      status: 200,
-      id: 1
-    }, {
-      appointerName: 'John5',
-      status: 200,
-      id: 1
-    }, {
-      appointerName: 'John6',
-      status: 200,
-      id: 1
-    },
-    {
-      appointerName: 'John7',
-      status: 200,
-      id: 1
-    }, {
-      appointerName: 'John8',
-      status: 200,
-      id: 1
-    }, {
-      appointerName: 'John9',
-      status: 200,
-      id: 1
-    }
+    // {
+    //   appointerName: 'John',
+    //   status: 200,
+    //   id: 1
+    // }, {
+    //   appointerName: 'John2',
+    //   status: 200,
+    //   id: 1
+    // }, {
+    //   appointerName: 'John3',
+    //   status: 200,
+    //   id: 1
+    // },
+    // {
+    //   appointerName: 'John4',
+    //   status: 200,
+    //   id: 1
+    // }, {
+    //   appointerName: 'John5',
+    //   status: 200,
+    //   id: 1
+    // }, {
+    //   appointerName: 'John6',
+    //   status: 200,
+    //   id: 1
+    // },
+    // {
+    //   appointerName: 'John7',
+    //   status: 200,
+    //   id: 1
+    // }, {
+    //   appointerName: 'John8',
+    //   status: 200,
+    //   id: 1
+    // }, {
+    //   appointerName: 'John9',
+    //   status: 200,
+    //   id: 1
+    // }
   ])
 
   const arrowRef = useRef<LottieView>(null)
@@ -177,7 +187,7 @@ export const CheckAppointment = (props) => {
 
   const Card = ({ index, item, y }: { index: number, item: { status: number; appointerName: string, y: Animated.Value } }) => {
     const { width, height: wHeight } = Dimensions.get("window")
-    const ratio = 160 / 362
+    const ratio = 200 / 362
     const CARD_WIDTH = width * 0.8
     const DEFAULT_CARD_HEIGHT = CARD_WIDTH * ratio
     const MARGIN = 10
@@ -188,6 +198,7 @@ export const CheckAppointment = (props) => {
     const isTop = 0
     const isBottom = height - CARD_HEIGHT
     const isAppearing = height
+    const animatedIndex = useRef(new Animated.Value(0)).current
 
     const translateY = Animated.add(
       Animated.add(
@@ -217,42 +228,32 @@ export const CheckAppointment = (props) => {
     const status = StatusPreset[item.status]
     const SVG = avatar[_.random(Object.keys(avatar).length - 1) || 0]
     return (
-      <Animated.View style={[{ opacity, transform: [{ translateY }, { scale }] }]}>
-        <LinearGradient colors={['#2193b0', '#6dd5ed']} start={{ x: 0, y: 0 }} end={{ x: 1, y: 0 }} style={styles.ListWrapper}>
-          <View>
-            {/* <LottieView */}
-            {/*  source={avatar[_.random(Object.keys(avatar).length - 1) || 0]} */}
-            {/*  autoPlay={true} */}
-            {/*  loop={true} */}
-            {/*  style={{ height: 60, marginLeft: -6, }} */}
-            {/* /> */}
-            <SVG height={65} width={65}/>
-          </View>
-          <View style={{ flex: 1 }}>
-            <View style={{ flex: 1, flexDirection: 'row', justifyContent: 'space-evenly' }}>
-              <View style={{ justifyContent: 'space-around' }}>
-                <Text style={styles.ListHeaderName}>Name:</Text>
-                <Text style={styles.ListHeaderName}>Status:</Text>
-              </View>
-              <View style={{ justifyContent: 'space-around' }}>
-                <Text style={styles.ListHeaderText}>{item.appointerName}</Text>
-                <Text style={styles.ListHeaderText}>{status}</Text>
-              </View>
+      <CardView style={{ flex: 1, borderRadius: 15, height: 150, marginTop: 10 }} onPress={() => { generateQRCode(item) }} isShowAnimation={true} shadowRatio={0}>
+        <Animated.View style={[{ opacity, transform: [{ translateY }, { scale }] }, styles.ListWrapper]}>
+          <ImageBackground source={Image.resolveAssetSource(cards[_.random(Object.keys(cards).length - 1) || 0])} style={{ width: '100%', height: '100%' }}>
+            <View style={{ flex: 1, padding: 15 }}>
 
+              <View style={{ flex: 1, flexDirection: 'row', }}>
+                <View style={{ justifyContent: 'space-around' }}>
+                  <Text style={styles.ListHeaderName}>Name: </Text>
+                  <Text style={styles.ListHeaderName}>Status: </Text>
+                </View>
+                <View style={{ justifyContent: 'space-around' }}>
+                  <Text style={styles.ListHeaderText}>{item.appointerName}</Text>
+                  <Text style={styles.ListHeaderText}>{status}</Text>
+                </View>
+
+              </View>
+              {/* <TouchableOpacity */}
+              {/*  onPress={() => { generateQRCode(item) }} */}
+              {/*  style={{ flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center', borderColor: '#2288DC', borderWidth: 1, height: 30, width: 100, alignSelf: 'flex-end', borderRadius: 8 }} */}
+              {/* > */}
+              <Text style={{ fontSize: 12, color: '#ffffff' }}>Get QR code</Text>
+              {/* </TouchableOpacity> */}
             </View>
-            <TouchableOpacity
-              onPress={() => { generateQRCode(item) }}
-              style={{ flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center', borderColor: '#2288DC', borderWidth: 1, height: 30, width: 100, alignSelf: 'flex-end', borderRadius: 8 }}
-              onFocus={(e) => {
-                console.log('e', e.bubbles); arrowRef.current.play() }}
-              onBlur={() => {
-                console.log('onblur'); arrowRef.current.reset() }}
-            >
-              <Text style={{ fontSize: 12 }}>Get QR code</Text>
-            </TouchableOpacity>
-          </View>
-        </LinearGradient>
-      </Animated.View>
+          </ImageBackground>
+        </Animated.View>
+      </CardView>
     )
   }
 
@@ -262,6 +263,14 @@ export const CheckAppointment = (props) => {
   })
 
   const AnimatedFlatList = Animated.createAnimatedComponent(FlatList)
+  const renderEmptyItem = () => {
+    return (
+      <View style={{ height: 150, alignItems: 'center' }}>
+        <LottieView source={Empty} autoPlay={true} loop={true} style={{ height: 300 }}/>
+        <Text style={{ fontFamily: fonts.italic, fontSize: 22 }}>No appointment to show!</Text>
+      </View>
+    )
+  }
   return (
     <SafeAreaView style={styles.Container}>
 
@@ -281,6 +290,7 @@ export const CheckAppointment = (props) => {
         ItemSeparatorComponent={renderItemSeparator}
         style={{ flex: 0.8 }}
         showsVerticalScrollIndicator={false}
+        ListEmptyComponent={renderEmptyItem}
       />
 
     </SafeAreaView>

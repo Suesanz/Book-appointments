@@ -1,5 +1,6 @@
 import React from 'react'
-import { Text, View, StyleSheet, ViewStyle, TextStyle, TouchableOpacity, Image } from 'react-native'
+import { Text, View, StyleSheet, ViewStyle, TextStyle, TouchableOpacity, Image, ImageBackground } from 'react-native'
+import { BlurView } from "@react-native-community/blur"
 import { SafeAreaView } from 'react-native-safe-area-context'
 import LottieView from "lottie-react-native"
 import CheckAppointment from '../screens/assets/book-appointment.json'
@@ -50,38 +51,31 @@ const styles = StyleSheet.create({
 
 export const Home = (props: { navigation: { navigate: (arg0: string) => void } }) => {
   return (
-    <SafeAreaView style={styles.Container} >
-      {/* <View style={styles.HeaderContainer}> */}
-      <Text style={styles.WelcomeText}>Welcome,</Text>
-      {/* </View> */}
-      <Text style={styles.SubWelcomeText}>Book appointments!</Text>
-      <View>
-        <TouchableOpacity activeOpacity={0.6} style={styles.BookAppointmentContainer} onPress={() => props.navigation.navigate('BookAppointmentScreen')}>
-          {/* <Text> */}
-          {/* Book an appointment */}
-          {/* </Text> */}
-          <LottieView
-            source={BookAppointment}
-            autoPlay={true}
-            loop={true}
-          />
-          {/* <Image source={require('../screens/assets/appointment.jpg')} resizeMode={'contain'} style={{ flex: 1 }}/> */}
-        </TouchableOpacity>
-        <View style={styles.HeaderContainer}>
-          <Text style={styles.SubWelcomeText}>Check appointments!</Text>
+    <ImageBackground source={require('../screens/assets/appointment-background.jpg')} style={{ flex: 1, opacity: 1 }} resizeMode={'cover'}>
+      <SafeAreaView style={styles.Container}>
+        <Text style={styles.WelcomeText}>Welcome,</Text>
+        <Text style={styles.SubWelcomeText}>Book appointments!</Text>
+        <View>
+          <TouchableOpacity activeOpacity={0.6} style={styles.BookAppointmentContainer} onPress={() => props.navigation.navigate('BookAppointmentScreen')}>
+            <LottieView
+              source={BookAppointment}
+              autoPlay={true}
+              loop={true}
+            />
+            {/* <Image source={require('../screens/assets/appointment.jpg')} resizeMode={'contain'} style={{ flex: 1 }}/> */}
+          </TouchableOpacity>
+          <View style={styles.HeaderContainer}>
+            <Text style={styles.SubWelcomeText}>Check appointments!</Text>
+          </View>
+          <TouchableOpacity activeOpacity={0.6} style={styles.BookAppointmentContainer} onPress={() => props.navigation.navigate('CheckAppointmentScreen')}>
+            <LottieView
+              source={CheckAppointment}
+              autoPlay={true}
+              loop={true}
+            />
+          </TouchableOpacity>
         </View>
-        <TouchableOpacity activeOpacity={0.6} style={styles.BookAppointmentContainer} onPress={() => props.navigation.navigate('CheckAppointmentScreen')}>
-          {/*  <Text> */}
-          {/* Check your appointments */}
-          {/*  </Text> */}
-          <LottieView
-            source={CheckAppointment}
-            autoPlay={true}
-            loop={true}
-            // style={{ height: 60, marginLeft: -6, }}
-          />
-        </TouchableOpacity>
-      </View>
-    </SafeAreaView>
+      </SafeAreaView>
+    </ImageBackground>
   )
 }
