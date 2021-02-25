@@ -167,14 +167,12 @@ export const CheckAppointment = (props) => {
     // }
   ])
 
-  const arrowRef = useRef<LottieView>(null)
-
   useEffect(() => {
     (async () => {
       try {
-        // const url = `http://localhost:5001/book-appointments-37a0e/us-central1/getAppointments`
-        // const response: AxiosResponse = await axios.get(url)
-        // setList(response.data)
+        const url = `http://localhost:5001/book-appointments-37a0e/us-central1/getAppointments`
+        const response: AxiosResponse = await axios.get(url)
+        setList(response.data)
       } catch (error) {
         console.log('Error in sending request', error.message)
       }
@@ -244,12 +242,7 @@ export const CheckAppointment = (props) => {
                 </View>
 
               </View>
-              {/* <TouchableOpacity */}
-              {/*  onPress={() => { generateQRCode(item) }} */}
-              {/*  style={{ flexDirection: 'row', justifyContent: 'space-around', alignItems: 'center', borderColor: '#2288DC', borderWidth: 1, height: 30, width: 100, alignSelf: 'flex-end', borderRadius: 8 }} */}
-              {/* > */}
               <Text style={{ fontSize: 12, color: '#ffffff' }}>Get QR code</Text>
-              {/* </TouchableOpacity> */}
             </View>
           </ImageBackground>
         </Animated.View>

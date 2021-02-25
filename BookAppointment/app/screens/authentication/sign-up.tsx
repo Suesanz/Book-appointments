@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { Text, View, StyleSheet, ViewStyle, TextStyle, TouchableOpacity, Image, Platform } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { Button, Icon, Input } from 'react-native-elements'
@@ -15,7 +15,6 @@ const styles = StyleSheet.create({
   } as ViewStyle,
 
   HeaderContainer: {
-    // flex: 0.1,
     justifyContent: 'flex-start',
   } as ViewStyle,
 
@@ -65,7 +64,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
     textAlign: 'center',
     height: 30,
-    color: 'red'
+    color: 'red',
   } as TextStyle,
 
   ProfileImageContainer: {
@@ -146,6 +145,13 @@ export const SignUpInternal = (props: SignUpProps) => {
   const onPasswordChangeText = (value: string) => { setPasswordValue(value) }
   const onNameChangeText = (value: string) => { setNameValue(value) }
 
+  useEffect(() => {
+    if (props.isLoggedIn) {
+      props.navigation.navigate('HomeScreen')
+    }
+  }, [props.isLoggedIn])
+
+  console.log('isLoggedIn', props.isLoggedIn)
   const signUpHandler = async () => {
     props.setLoading(true)
     nameInputRef.current && nameInputRef.current.blur()
@@ -162,12 +168,8 @@ export const SignUpInternal = (props: SignUpProps) => {
 
       await props.signUp(emailValue, passwordValue)
 
-      if (props.isLoggedIn) {
-        props.navigation.navigate('HomeScreen')
-      }
-
     } else {
-      props.setError('Invalid credentials')
+      props.setError('Invalid credentials!')
     }
 
     props.setLoading(false)
@@ -177,8 +179,6 @@ export const SignUpInternal = (props: SignUpProps) => {
     launchImageLibrary({ mediaType: 'photo' }, response => {
       if (response.uri) {
         setUri(response.uri)
-        // const src = Platform.OS === 'ios' ? 'src' : 'source'
-        // profileImageRef.current.setNativeProps({ [src]: response.uri })
       } else {
         setUri(null)
       }
@@ -216,6 +216,7 @@ export const SignUpInternal = (props: SignUpProps) => {
           errorMessage={nameError}
           onFocus={() => { setNameError(''); props.setError('') }}
           autoFocus
+          autoCorrect={false}
         />
         <Input
           ref={emailInputRef}
@@ -226,6 +227,7 @@ export const SignUpInternal = (props: SignUpProps) => {
           onChangeText={onEmailChangeText}
           errorMessage={emailError}
           onFocus={() => { setEmailError(''); props.setError('') }}
+          autoCorrect={false}
         />
         <Input
           ref={passwordInputRef}
@@ -237,6 +239,7 @@ export const SignUpInternal = (props: SignUpProps) => {
           errorMessage={passwordError}
           onFocus={() => { setPasswordError(''); props.setError('') }}
           secureTextEntry={true}
+          autoCorrect={false}
         />
       </View>
 

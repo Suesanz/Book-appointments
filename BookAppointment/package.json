@@ -12,6 +12,7 @@
   "dependencies": {
     "@react-native-community/blur": "^3.6.0",
     "@react-native-community/datetimepicker": "^3.0.8",
+    "@react-navigation/drawer": "^5.12.4",
     "@react-navigation/native": "^5.8.10",
     "@types/react-redux": "^7.1.14",
     "axios": "^0.21.0",

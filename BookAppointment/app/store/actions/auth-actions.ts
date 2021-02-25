@@ -8,7 +8,7 @@ export const login = (email: string, password: string) => {
       dispatch({ type: actionTypes.LOADING, payload: { isLoading: true } })
       const data: Firebase.auth.UserCredential = await Firebase.auth().signInWithEmailAndPassword(email, password)
       const userInfo = data.user
-
+      console.log('data', JSON.stringify(data))
       dispatch({ type: actionTypes.LOADING, payload: { isLoading: false } })
 
       dispatch ({
@@ -40,7 +40,7 @@ export const signUp = (email: string, password: string) => {
     try {
       const response: Firebase.auth.UserCredential = await Firebase.auth().createUserWithEmailAndPassword(email, password)
       const userInfo = response.user
-
+      console.log('signUp Response', JSON.stringify(response))
       dispatch ({
         type: actionTypes.SIGN_UP,
         payload: {
@@ -53,7 +53,7 @@ export const signUp = (email: string, password: string) => {
       })
 
     } catch (err) {
-      console.log('err', err.message)
+      console.warn('err', err.message)
       dispatch({
         type: actionTypes.SIGN_UP_ERROR,
         payload: {
