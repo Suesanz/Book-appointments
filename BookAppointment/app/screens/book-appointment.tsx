@@ -1,10 +1,14 @@
 import React, { useRef, useState } from 'react'
-import { Platform, StyleSheet, Text, TextStyle, TouchableOpacity, View, ViewStyle } from 'react-native'
+import { ImageBackground, Platform, StyleSheet, Text, TextStyle, TouchableOpacity, View, ViewStyle } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { Button, Icon, Input } from 'react-native-elements'
 import axios, { AxiosResponse } from 'axios'
 import validate from "validate.js"
 import { RNDateTimePicker } from "../components/date-time-picker"
+import Device from "../utils/device"
+import Modal from 'react-native-modal'
+import LottieView from 'lottie-react-native'
+import success from '../screens/assets/success.json'
 
 interface PickerEvent {
   type:string
@@ -69,8 +73,8 @@ export const BookAppointment = () => {
   const [date, setDate] = useState<Date>(new Date(Date.now()))
   const [mode, setMode] = useState<'time'|'date'|undefined>('date')
 
-  const [nameValue, setNameValue] = useState<string>('')
-  const [emailValue, setEmailValue] = useState<string>('')
+  const [nameValue, setNameValue] = useState<string>(Device.isDebug ? 'Sourav' : '')
+  const [emailValue, setEmailValue] = useState<string>(Device.isDebug ? 'thesuesanz00@gmail.com' : '')
 
   const [isLoading, setLoading] = useState<boolean>(false)
   const [isPickerVisible, setPickerVisible] = useState<boolean>(false)
@@ -78,6 +82,9 @@ export const BookAppointment = () => {
   const [emailError, setEmailError] = useState<string>('')
   const [nameError, setNameError] = useState<string>('')
   const [dateError, setDateError] = useState<string>('')
+
+  const [isModalVisible, setModalVisible] = useState(false)
+  const [modalContent, setModalContent] = useState('')
 
   const emailInputRef = useRef<Input>(null)
   const nameInputRef = useRef<Input>(null)
@@ -148,7 +155,7 @@ export const BookAppointment = () => {
       const newDate = currentDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
 
       setTime(newTime + ',  ' + newDate)
-      console.log('time', newTime)
+      console.log('time', newTime + ',  ' + newDate)
     }
 
   }
@@ -180,10 +187,13 @@ export const BookAppointment = () => {
         console.log(response.status)
         console.log(response.data)
         console.log(response.statusText)
-
+        setModalContent('Appointment request sent successfully. Go to check appointment screen to view status of your appointment.')
       } catch (error) {
+        setModalContent('Appointment request failed. Please try again or contact support.')
         console.log('Error in sending request', error.message)
       }
+
+      setModalVisible(true)
     }
 
     setLoading(false)
@@ -275,6 +285,37 @@ export const BookAppointment = () => {
           loading={isLoading}
         />
       </View>
+
+      <Modal
+        isVisible={isModalVisible}
+        onBackdropPress={() => { setModalVisible(false) }}
+        onDismiss={() => { setModalVisible(false) }}
+        onSwipeComplete={() => { setModalVisible(false) }}
+        useNativeDriverForBackdrop
+        swipeDirection={['down']}
+        animationIn="slideInUp"
+        animationOut="slideOutDown"
+        style={{ }}
+      >
+        <ImageBackground
+          source={require('../screens/assets/success-background-2.jpg')} resizeMode={'stretch'}
+          style={{ height: 500, justifyContent: 'center', alignItems: 'center', padding: 20, borderRadius: 25 }}
+        >
+          <Text style={{ fontSize: 20, lineHeight: 35, color: '#000000', textAlign: 'auto', height: 150 }}>{modalContent}</Text>
+          <LottieView
+            source={success}
+            loop={true}
+            autoPlay={true}
+            style={{ height: 100, alignSelf: 'center' }}
+          />
+          <Button
+            title={'Okay'}
+            buttonStyle={{ backgroundColor: '#38ac7f' }}
+            style={{ width: 160, height: 100, justifyContent: 'center' }}
+            onPress={() => { setModalVisible(false) }}
+          />
+        </ImageBackground>
+      </Modal>
 
     </SafeAreaView>
   )

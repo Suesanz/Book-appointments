@@ -13,8 +13,16 @@ const initialState = {
 export const AuthReducer = (state = initialState, action) => {
   switch (action.type) {
 
+    case actionTypes.SIGN_UP: {
+      return { ...state, ...action.payload }
+    }
+
+    case actionTypes.SIGN_UP_ERROR: {
+      return { ...state, ...action.payload }
+    }
+
     case actionTypes.LOGIN: {
-      console.log('action', JSON.stringify(action))
+      console.log('LOGIN PAYLOAD', JSON.stringify(action))
       return { ...state, ...action.payload }
     }
 
@@ -22,11 +30,8 @@ export const AuthReducer = (state = initialState, action) => {
       return { ...state, ...action.payload }
     }
 
-    case actionTypes.SIGN_UP: {
-      return { ...state, ...action.payload }
-    }
-
-    case actionTypes.SIGN_UP_ERROR: {
+    case actionTypes.LOGOUT: {
+      console.log('', JSON.stringify(action))
       return { ...state, ...action.payload }
     }
 

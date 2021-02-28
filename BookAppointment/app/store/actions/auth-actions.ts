@@ -2,6 +2,36 @@ import Firebase from "../../config/firebase-config"
 import * as actionTypes from "./auth-action-types"
 import { Dispatch } from "redux"
 
+export const signUp = (email: string, password: string) => {
+  return async (dispatch: Dispatch) => {
+    try {
+      const response: Firebase.auth.UserCredential = await Firebase.auth().createUserWithEmailAndPassword(email, password)
+      const userInfo = response.user
+      console.log('signUp Response', JSON.stringify(response))
+      dispatch ({
+        type: actionTypes.SIGN_UP,
+        payload: {
+          username: userInfo.displayName,
+          email: userInfo.email,
+          userId: userInfo.uid,
+          photoURL: userInfo.photoURL,
+          isLoggedIn: true
+        }
+      })
+
+    } catch (err) {
+      console.warn('err', err.message)
+      dispatch({
+        type: actionTypes.SIGN_UP_ERROR,
+        payload: {
+          errorMessage: err.message,
+          isLoggedIn: false
+        }
+      })
+    }
+  }
+}
+
 export const login = (email: string, password: string) => {
   return async (dispatch: Dispatch) => {
     try {
@@ -35,33 +65,18 @@ export const login = (email: string, password: string) => {
   }
 }
 
-export const signUp = (email: string, password: string) => {
+export const logout = () => {
   return async (dispatch: Dispatch) => {
-    try {
-      const response: Firebase.auth.UserCredential = await Firebase.auth().createUserWithEmailAndPassword(email, password)
-      const userInfo = response.user
-      console.log('signUp Response', JSON.stringify(response))
-      dispatch ({
-        type: actionTypes.SIGN_UP,
-        payload: {
-          username: userInfo.displayName,
-          email: userInfo.email,
-          userId: userInfo.uid,
-          photoURL: userInfo.photoURL,
-          isLoggedIn: true
-        }
-      })
+    const data = await Firebase.auth().signOut()
+    console.log('data', JSON.stringify(data))
 
-    } catch (err) {
-      console.warn('err', err.message)
-      dispatch({
-        type: actionTypes.SIGN_UP_ERROR,
-        payload: {
-          errorMessage: err.message,
-          isLoggedIn: false
-        }
-      })
-    }
+    dispatch ({
+      type: actionTypes.LOGOUT,
+      payload: {
+        isLoggedIn: false
+      }
+    })
+
   }
 }
 

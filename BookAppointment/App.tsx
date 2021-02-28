@@ -1,5 +1,5 @@
 import React, { useEffect } from 'react'
-import { NavigationContainer } from '@react-navigation/native'
+import { DarkTheme, DefaultTheme, NavigationContainer } from '@react-navigation/native'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
 import { enableScreens } from 'react-native-screens'
 
@@ -18,6 +18,14 @@ const reducers = combineReducers({
 
 const store = createStore(reducers, applyMiddleware(ReduxThunk))
 
+const MyTheme = {
+  ...DefaultTheme,
+  colors: {
+    ...DefaultTheme.colors,
+    primary: 'rgb(255, 45, 85)',
+  },
+}
+
 export default function App() {
 
   useEffect(() => {
@@ -29,7 +37,7 @@ export default function App() {
   return (
     <Provider store={store}>
       <SafeAreaProvider>
-        <NavigationContainer>
+        <NavigationContainer theme={MyTheme}>
           <AuthNavigator />
         </NavigationContainer>
       </SafeAreaProvider>

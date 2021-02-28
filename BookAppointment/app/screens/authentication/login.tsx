@@ -6,6 +6,7 @@ import validate from 'validate.js'
 import { connect } from "react-redux"
 import * as actions from '../../store/actions/index'
 import { Dispatch } from "redux"
+import Device from "../../utils/device"
 
 const styles = StyleSheet.create({
 
@@ -71,8 +72,8 @@ const styles = StyleSheet.create({
 })
 
 const LoginInternal = (props) => {
-  const [emailValue, setEmailValue] = useState<string>('')
-  const [passwordValue, setPasswordValue] = useState<string>('')
+  const [emailValue, setEmailValue] = useState<string>(Device.isDebug ? 'anthe2067@gmail.com' : '')
+  const [passwordValue, setPasswordValue] = useState<string>(Device.isDebug ? 'ssssss' : '')
   const [emailError, setEmailError] = useState<string>('')
   const [passwordError, setPasswordError] = useState<string>('')
 
@@ -120,8 +121,6 @@ const LoginInternal = (props) => {
 
    if (!error?.email && !error?.password) {
      await props.login(emailValue, passwordValue)
-
-     console.log('isLoggedIn', props.isLoggedIn)
 
      if (props.isLoggedIn) {
        props.navigation.navigate('HomeScreen')
