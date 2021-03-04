@@ -293,15 +293,17 @@ export const BookAppointment = () => {
         onSwipeComplete={() => { setModalVisible(false) }}
         useNativeDriverForBackdrop
         swipeDirection={['down']}
-        animationIn="slideInUp"
-        animationOut="slideOutDown"
-        style={{ }}
+        animationIn={"slideInUp"}
+        animationOut={"slideOutDown"}
+        animationInTiming={75}
+        animationOutTiming={75}
+        backdropTransitionOutTiming={0}
       >
         <ImageBackground
           source={require('../screens/assets/success-background-2.jpg')} resizeMode={'stretch'}
           style={{ height: 500, justifyContent: 'center', alignItems: 'center', padding: 20, borderRadius: 25 }}
         >
-          <Text style={{ fontSize: 20, lineHeight: 35, color: '#000000', textAlign: 'auto', height: 150 }}>{modalContent}</Text>
+          <Text style={{ fontSize: 18, lineHeight: 35, color: '#000000', textAlign: 'auto', height: 150, marginHorizontal: 10 }}>{modalContent}</Text>
           <LottieView
             source={success}
             loop={true}
@@ -310,8 +312,10 @@ export const BookAppointment = () => {
           />
           <Button
             title={'Okay'}
-            buttonStyle={{ backgroundColor: '#38ac7f' }}
-            style={{ width: 160, height: 100, justifyContent: 'center' }}
+            buttonStyle={{ backgroundColor: '#38ac7f', width: 200 }}
+            titleStyle={{ textAlign: 'center' }}
+            containerStyle={{ marginTop: 20 }}
+            style={{ height: 100, alignItems: 'center', }}
             onPress={() => { setModalVisible(false) }}
           />
         </ImageBackground>

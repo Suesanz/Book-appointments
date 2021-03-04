@@ -13,12 +13,6 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import axios, { AxiosResponse } from 'axios'
 import StatusPreset from '../presets/status-preset'
 import LottieView from 'lottie-react-native'
-// import avatar0 from './assets/avatar/1.json'
-// import AVATAR1 from './assets/avatar/avatar-1.svg'
-// import AVATAR2 from './assets/avatar/avatar-2.svg'
-// import AVATAR3 from './assets/avatar/avatar-3.svg'
-// import AVATAR4 from './assets/avatar/avatar-4.svg'
-// import AVATAR5 from './assets/avatar/avatar-5.svg'
 import Empty from './assets/empty.json'
 import { DrawerActions } from '@react-navigation/native'
 
@@ -27,14 +21,6 @@ import { fonts } from "../theme/font"
 import { CardView } from "../components/card-view-animated"
 import { Icon } from "react-native-elements"
 import loader from "./assets/loading.json"
-
-// const avatar = {
-//   0: AVATAR1,
-//   1: AVATAR2,
-//   2: AVATAR3,
-//   3: AVATAR4,
-//   4: AVATAR5,
-// }
 
 const cards = {
   0: require('./assets/card1.png'),
@@ -52,6 +38,8 @@ const styles = StyleSheet.create({
   } as ViewStyle,
 
   HeaderContainer: {
+    alignItems: 'center',
+    width: '100%'
   } as ViewStyle,
 
   WelcomeText: {
@@ -169,7 +157,6 @@ export const CheckAppointment = (props) => {
       !isLoading && setLoading(true)
       await getList()
       setLoading(false)
-      console.log('useEffect')
 
     })()
   }, [])
@@ -259,15 +246,15 @@ export const CheckAppointment = (props) => {
   const AnimatedFlatList = Animated.createAnimatedComponent(FlatList)
   const renderEmptyItem = () => {
     return (
-      <View style={{ height: 150, alignItems: 'center' }}>
-        <LottieView source={Empty} autoPlay={true} loop={true} style={{ height: 300 }}/>
+      <View style={{ flex: 1, alignItems: 'center', justifyContent: 'center' }}>
+        <LottieView source={Empty} autoPlay={true} loop={true} style={{ height: 400 }}/>
         <Text style={{ fontFamily: fonts.italic, fontSize: 22 }}>No appointment to show!</Text>
       </View>
     )
   }
   return (
     <SafeAreaView style={styles.Container} edges={["top", "bottom"]}>
-      <View style={{ flexDirection: 'row', justifyContent: 'space-between', marginLeft: -15, alignItems: 'center', marginBottom: 60 }}>
+      <View style={{ flexDirection: 'row', marginLeft: -15, alignItems: 'center', marginBottom: 60 }}>
         <Icon name={'drawer'} type={'simple-line-icon'} size={25} style={{ marginTop: 0 }} onPress={() => { props.navigation.dispatch(DrawerActions.toggleDrawer()) }}/>
 
         <View style={styles.HeaderContainer}>

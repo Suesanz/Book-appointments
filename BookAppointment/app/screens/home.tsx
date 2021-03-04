@@ -35,6 +35,7 @@ const styles = StyleSheet.create({
   } as TextStyle,
 
   BookAppointmentContainer: {
+    // flex: 1,
     height: 150,
     // borderWidth: 1,
     marginVertical: 30,
@@ -47,7 +48,7 @@ const styles = StyleSheet.create({
     // shadowOffset: { width: 12, height: 12 },
     // shadowRadius: 10,
     // elevation: 10,
-    // backgroundColor: 'transparent'
+    backgroundColor: '#71B280'
   } as ViewStyle
 
 })
@@ -64,16 +65,16 @@ export const Home = (props: { navigation: { navigate: (arg0: string) => void } }
           <View style={styles.HeaderContainer}>
             <Text style={styles.SubWelcomeText}>Book appointments!</Text>
           </View>
-          <CardView style={[styles.BookAppointmentContainer, { backgroundColor: '#e3342f' }]} isShowAnimation={true} shadowRatio={10} onPress={() => {
+          <CardView style={[styles.BookAppointmentContainer, { backgroundColor: '#F2994A' }]} isShowAnimation={true} shadowRatio={10} onPress={() => {
             props.navigation.navigate('BookAppointmentScreen')
           }}>
-            <LinearGradient colors={['#F2994A', '#F2C94C', '#F2994A']} style={{ flex: 1, justifyContent: 'center', alignItems: 'center', width: 400 }}>
+            <LinearGradient colors={['#F2994A', '#F2C94C', '#F2994A']} style={{ flex: 1, justifyContent: 'center', alignItems: 'center', width: 500 }}>
               {/* <ImageBackground source={require('../screens/assets/home.jpg')} style={{ height: 200, width: 400, justifyContent: 'center', alignItems: 'center' }}> */}
               <LottieView
                 source={BookAppointment}
                 autoPlay={true}
                 loop={true}
-                style={{ height: '100%', width: '100%', }}
+                style={{ flex: 1 }}
               />
             </LinearGradient>
             {/* <Image source={require('../screens/assets/card4.png')} resizeMode={'contain'} style={{ flex: 1 }}/> */}
@@ -86,7 +87,7 @@ export const Home = (props: { navigation: { navigate: (arg0: string) => void } }
           <CardView isShowAnimation={true} style={[styles.BookAppointmentContainer]} shadowRatio={10} onPress={() => {
             props.navigation.navigate('CheckAppointmentScreen')
           }}>
-            <LinearGradient colors={['#134E5E', '#71B280', '#134E5E']} style={{ flex: 1, justifyContent: 'center', alignItems: 'center', width: 400 }}>
+            <LinearGradient colors={['#134E5E', '#71B280', '#134E5E']} style={{ flex: 1, justifyContent: 'center', alignItems: 'center', width: 500 }}>
               <LottieView
                 source={CheckAppointment}
                 autoPlay={true}
