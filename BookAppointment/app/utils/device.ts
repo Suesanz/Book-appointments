@@ -1,5 +1,4 @@
 import { AccessibilityInfo, Dimensions, I18nManager, NativeModules, Platform } from 'react-native'
-import Constants from 'expo-constants'
 import { initialWindowMetrics } from 'react-native-safe-area-context'
 
 const orientations = {

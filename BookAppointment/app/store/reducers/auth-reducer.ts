@@ -43,6 +43,10 @@ export const AuthReducer = (state = initialState, action) => {
       return { ...state, ...action.payload }
     }
 
+    case actionTypes.LOGGEDIN: {
+      return { ...state, ...action.payload }
+    }
+
     default: return state
 
   }

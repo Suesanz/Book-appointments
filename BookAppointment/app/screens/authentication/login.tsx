@@ -72,7 +72,7 @@ const styles = StyleSheet.create({
 })
 
 const LoginInternal = (props) => {
-  const [emailValue, setEmailValue] = useState<string>(Device.isDebug ? 'anthe2067@gmail.com' : '')
+  const [emailValue, setEmailValue] = useState<string>(Device.isDebug ? 'movieshangover24x7@gmail.com' : '')
   const [passwordValue, setPasswordValue] = useState<string>(Device.isDebug ? 'ssssss' : '')
   const [emailError, setEmailError] = useState<string>('')
   const [passwordError, setPasswordError] = useState<string>('')
@@ -124,8 +124,6 @@ const LoginInternal = (props) => {
 
      if (props.isLoggedIn) {
        props.navigation.navigate('HomeScreen')
-     } else {
-       props.setError(props.errorMessage)
      }
 
    } else {

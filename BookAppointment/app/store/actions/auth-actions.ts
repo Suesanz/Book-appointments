@@ -1,13 +1,13 @@
-import Firebase from "../../config/firebase-config"
+import auth from '@react-native-firebase/auth'
 import * as actionTypes from "./auth-action-types"
 import { Dispatch } from "redux"
 
 export const signUp = (email: string, password: string) => {
   return async (dispatch: Dispatch) => {
     try {
-      const response: Firebase.auth.UserCredential = await Firebase.auth().createUserWithEmailAndPassword(email, password)
-      const userInfo = response.user
-      console.log('signUp Response', JSON.stringify(response))
+      const data = await auth().createUserWithEmailAndPassword(email, password)
+      const userInfo = data.user
+      // console.log('signUp Response', JSON.stringify(data))
       dispatch ({
         type: actionTypes.SIGN_UP,
         payload: {
@@ -19,12 +19,21 @@ export const signUp = (email: string, password: string) => {
         }
       })
 
-    } catch (err) {
-      console.warn('err', err.message)
+    } catch (error) {
+      console.warn('Error in signUp: ', error.message)
+      let errorMessage
+      if (error.code === 'auth/email-already-in-use') {
+        errorMessage = 'That email address is already in use!'
+      }
+
+      if (error.code === 'auth/invalid-email') {
+        errorMessage = 'That email address is invalid!'
+      }
+
       dispatch({
         type: actionTypes.SIGN_UP_ERROR,
         payload: {
-          errorMessage: err.message,
+          errorMessage: errorMessage,
           isLoggedIn: false
         }
       })
@@ -36,9 +45,9 @@ export const login = (email: string, password: string) => {
   return async (dispatch: Dispatch) => {
     try {
       dispatch({ type: actionTypes.LOADING, payload: { isLoading: true } })
-      const data: Firebase.auth.UserCredential = await Firebase.auth().signInWithEmailAndPassword(email, password)
+      const data = await auth().signInWithEmailAndPassword(email, password)
       const userInfo = data.user
-      console.log('data', JSON.stringify(data))
+      // console.log('Login data', JSON.stringify(data))
       dispatch({ type: actionTypes.LOADING, payload: { isLoading: false } })
 
       dispatch ({
@@ -52,13 +61,21 @@ export const login = (email: string, password: string) => {
         }
       })
 
-    } catch (err) {
-      console.log('err', err.message)
+    } catch (error) {
+      console.log('Error in login: ', error.message)
+      let errorMessage = 'The credentials are invalid or account is blocked!'
+      if (error.code === 'auth/email-already-in-use') {
+        errorMessage = 'That email address is already in use!'
+      }
+
+      if (error.code === 'auth/invalid-email') {
+        errorMessage = 'That email address is invalid!'
+      }
       dispatch({
         type: actionTypes.LOGIN_ERROR,
         payload: {
-          errorMessage: err.message,
-          isLoggedIn: false
+          isLoggedIn: false,
+          errorMessage
         }
       })
     }
@@ -67,8 +84,8 @@ export const login = (email: string, password: string) => {
 
 export const logout = () => {
   return async (dispatch: Dispatch) => {
-    const data = await Firebase.auth().signOut()
-    console.log('data', JSON.stringify(data))
+    const data = await auth().signOut()
+    console.log('Logout data', JSON.stringify(data))
 
     dispatch ({
       type: actionTypes.LOGOUT,
@@ -80,7 +97,7 @@ export const logout = () => {
   }
 }
 
-export const setError = (errorMessage) => {
+export const setError = (errorMessage:string) => {
   return (dispatch: Dispatch) => {
     dispatch({ type: actionTypes.ERROR, payload: { errorMessage } })
   }
