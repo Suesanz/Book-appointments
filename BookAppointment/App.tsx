@@ -89,10 +89,25 @@ export default function App() {
   //   }
   // }
 
+  async function checkApplicationPermission() {
+    const authorizationStatus = await messaging().requestPermission({
+      provisional: true,
+    })
+
+    if (authorizationStatus === messaging.AuthorizationStatus.AUTHORIZED) {
+      console.log('User has notification permissions enabled.')
+    } else if (authorizationStatus === messaging.AuthorizationStatus.PROVISIONAL) {
+      console.log('User has provisional notification permissions.')
+    } else {
+      console.log('User has notification permissions disabled')
+    }
+  }
+
   useEffect(() => {
     (async () => {
       await initFonts()
       const authSubscriber = auth().onAuthStateChanged(onAuthStateChanged)
+      await checkApplicationPermission()
       const messagingSubscriber = messaging().onMessage(async remoteMessage => {
         Alert.alert('A new FCM message arrived!', JSON.stringify(remoteMessage))
       })
