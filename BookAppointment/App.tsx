@@ -12,6 +12,7 @@ import { initFonts } from "./app/theme/font"
 import * as actionTypes from "./app/store/actions/auth-action-types"
 import messaging from '@react-native-firebase/messaging'
 import { Alert } from "react-native"
+import firestore from '@react-native-firebase/firestore'
 
 enableScreens()
 
@@ -33,16 +34,60 @@ export default function App() {
 
   const [initializing, setInitializing] = useState(true)
 
-  const onAuthStateChanged = (user) => {
+  const onAuthStateChanged = async (user) => {
     // setUser(user)
     if (user) {
-      store.dispatch({ type: actionTypes.LOGGEDIN, payload: { isLoggedIn: true } })
+      const userInfoFromFirestore = {
+        username: null,
+        // email: null,
+        // userId: null,
+      }
+      const dataFromFirestore = await firestore().collection('authUsers').get()
+
+      !dataFromFirestore.empty && dataFromFirestore.forEach(doc => {
+        const item = doc.data()
+        if (item.userId === user.uid) {
+          userInfoFromFirestore.username = item.username
+        }
+      })
+
+      store.dispatch({
+        type: actionTypes.LOGGEDIN,
+        payload: {
+          username: userInfoFromFirestore.username,
+          email: user.email,
+          userId: user.uid,
+          isLoggedIn: true
+        }
+      })
     } else {
       store.dispatch({ type: actionTypes.LOGGEDIN, payload: { isLoggedIn: false } })
     }
     console.log('onAuthStateChanged', !!user)
     if (initializing) setInitializing(false)
   }
+
+  // const getFcmToken = async () => {
+  //   const fcmToken = await messaging().getToken()
+  //   if (fcmToken) {
+  //     console.log(fcmToken)
+  //     console.log("Your Firebase Token is:", fcmToken)
+  //   } else {
+  //     console.log("Failed", "No token received")
+  //   }
+  // }
+  //
+  // const requestUserPermission = async () => {
+  //   const authStatus = await messaging().requestPermission()
+  //   const enabled =
+  //       authStatus === messaging.AuthorizationStatus.AUTHORIZED ||
+  //       authStatus === messaging.AuthorizationStatus.PROVISIONAL
+  //
+  //   if (enabled) {
+  //     await getFcmToken() // <---- Add this
+  //     console.log('Authorization status:', authStatus)
+  //   }
+  // }
 
   useEffect(() => {
     (async () => {

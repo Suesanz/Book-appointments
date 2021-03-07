@@ -3,18 +3,20 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import { Image, ImageStyle, StyleSheet, Text, TextStyle, View, ViewStyle } from "react-native"
 import LottieView from "lottie-react-native"
 import loader from "./assets/loading.json"
+import { Icon } from "react-native-elements"
+import { DrawerActions } from "@react-navigation/native"
 
 const styles = StyleSheet.create({
 
   Container: {
     flex: 1,
-    margin: 25
+    padding: 25,
+    backgroundColor: 'white'
   } as ViewStyle,
 
   HeaderContainer: {
-    flex: 0.2,
-    flexDirection: 'column',
-    justifyContent: 'flex-start'
+    alignItems: 'center',
+    width: '100%'
   } as ViewStyle,
 
   WelcomeText: {
@@ -91,11 +93,18 @@ export const QRCode = (props) => {
 
   return (
     <SafeAreaView style={styles.Container}>
-      <View style={styles.HeaderContainer}>
-        <Text style={styles.WelcomeText}>QR Code,</Text>
-        <Text style={styles.SubWelcomeText}>Check appointment details!</Text>
-      </View>
+      {/* <View style={styles.HeaderContainer}> */}
+      {/*  <Text style={styles.WelcomeText}>QR Code,</Text> */}
+      {/*  <Text style={styles.SubWelcomeText}>Check appointment details!</Text> */}
+      {/* </View> */}
+      <View style={{ flexDirection: 'row', marginLeft: -15, alignItems: 'center', marginBottom: 60 }}>
+        <Icon name={'menu'} type={'simple-line-icon'} size={25} style={{ marginTop: 0 }} onPress={() => { props.navigation.dispatch(DrawerActions.toggleDrawer()) }}/>
 
+        <View style={styles.HeaderContainer}>
+          <Text style={styles.WelcomeText}>QR Code</Text>
+          {/* <Text style={styles.SubWelcomeText}>Check all your appointments!</Text> */}
+        </View>
+      </View>
       <View style={styles.QRCodeContainer}>
         {
           loading

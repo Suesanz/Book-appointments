@@ -9,6 +9,8 @@ import Device from "../utils/device"
 import Modal from 'react-native-modal'
 import LottieView from 'lottie-react-native'
 import success from '../screens/assets/success.json'
+import { DrawerActions } from "@react-navigation/native"
+import { connect } from "react-redux"
 
 interface PickerEvent {
   type:string
@@ -18,13 +20,13 @@ const styles = StyleSheet.create({
 
   Container: {
     flex: 1,
-    margin: 25
+    padding: 25,
+    backgroundColor: 'white'
   } as ViewStyle,
 
   HeaderContainer: {
-    flex: 0.2,
-    flexDirection: 'column',
-    justifyContent: 'flex-start'
+    alignItems: 'center',
+    width: '100%'
   } as ViewStyle,
 
   WelcomeText: {
@@ -67,7 +69,7 @@ const styles = StyleSheet.create({
 
 })
 
-export const BookAppointment = () => {
+const BookAppointmentInternal = (props) => {
 
   const [time, setTime] = useState<string>('')
   const [date, setDate] = useState<Date>(new Date(Date.now()))
@@ -180,8 +182,8 @@ export const BookAppointment = () => {
     if (!error?.username && !error?.email && isDate) {
 
       try {
-        const url = `http://localhost:5001/book-appointments-37a0e/us-central1/sendMail?dest=${emailValue}&destName=${nameValue}&sender=John&time=${time}`
-
+        const url = `http://localhost:5001/book-appointments-37a0e/us-central1/sendMail?destEmail=${emailValue}&destName=${nameValue}&senderName=${props.userName}&senderEmail=${props.email}&time=${time}`
+        console.log('url', url)
         const response:AxiosResponse = await axios.get(url)
 
         console.log(response.status)
@@ -212,13 +214,21 @@ export const BookAppointment = () => {
         onChange={pickerHandler}
       />
 
-      <View style={styles.HeaderContainer}>
-        <Text style={styles.WelcomeText}>Book Appointment,</Text>
-        <Text style={styles.SubWelcomeText}>
-          Enter details of the appointer!
-        </Text>
-      </View>
+      {/* <View style={styles.HeaderContainer}> */}
+      {/*  <Text style={styles.WelcomeText}>Book Appointment</Text> */}
+      {/*  <Text style={styles.SubWelcomeText}> */}
+      {/*    Enter details of the appointer! */}
+      {/*  </Text> */}
+      {/* </View> */}
 
+      <View style={{ flexDirection: 'row', marginLeft: -15, alignItems: 'center', marginBottom: 60 }}>
+        <Icon name={'menu'} type={'simple-line-icon'} size={25} style={{ marginTop: 0 }} onPress={() => { props.navigation.dispatch(DrawerActions.toggleDrawer()) }}/>
+
+        <View style={styles.HeaderContainer}>
+          <Text style={styles.WelcomeText}>Book Appointment</Text>
+          {/* <Text style={styles.SubWelcomeText}>Check all your appointments!</Text> */}
+        </View>
+      </View>
       <View style={styles.InputContainer}>
         <Input
           ref={nameInputRef}
@@ -324,3 +334,11 @@ export const BookAppointment = () => {
     </SafeAreaView>
   )
 }
+
+const mapStateToProps = (state) => ({
+  email: state.auth.email,
+  username: state.auth.username,
+  userId: state.auth.userId,
+})
+
+export const BookAppointment = connect(mapStateToProps, null)(BookAppointmentInternal)

@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<network-security-config>
+    <base-config cleartextTrafficPermitted="true" />
+<!--    <domain-config cleartextTrafficPermitted="false">-->
+<!--        <domain includeSubdomains="true">http://localhost:5001/book-appointments-37a0e/us-central1/getAppointments</domain>-->
+<!--        <domain includeSubdomains="true">http://localhost:5001/book-appointments-37a0e/us-central1/sendMail</domain>-->
+<!--    </domain-config>-->
+</network-security-config>
+

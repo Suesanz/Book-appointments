@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { Text, View, StyleSheet, ViewStyle, TextStyle, TouchableOpacity, Image, Platform } from 'react-native'
+import { Text, View, StyleSheet, ViewStyle, TextStyle, TouchableOpacity, Image } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { Button, Icon, Input } from 'react-native-elements'
 import validate from 'validate.js'
@@ -85,7 +85,7 @@ const styles = StyleSheet.create({
 
 interface SignUpProps {
   setLoading: (arg0: boolean) => void
-  signUp: (arg0: string, arg1: string) => any
+  signUp: (username: string, emailValue: string, passwordValue: string) => void
   isLoggedIn: boolean
   navigation: { navigate: (arg0: string) => void }
   setError: (arg0: string) => void
@@ -166,7 +166,7 @@ export const SignUpInternal = (props: SignUpProps) => {
 
     if (!error?.username && !error?.email && !error?.password) {
 
-      await props.signUp(emailValue, passwordValue)
+      await props.signUp(nameValue, emailValue, passwordValue)
 
     } else {
       props.setError('Invalid credentials!')
@@ -275,7 +275,7 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  signUp: (emailValue: string, passwordValue: string) => dispatch(actions.signUp(emailValue, passwordValue)),
+  signUp: (username: string, emailValue: string, passwordValue: string) => dispatch(actions.signUp(username, emailValue, passwordValue)),
   setError: (error: string) => dispatch(actions.setError(error)),
   setLoading: (isLoading: boolean) => dispatch(actions.setLoading(isLoading)),
 })

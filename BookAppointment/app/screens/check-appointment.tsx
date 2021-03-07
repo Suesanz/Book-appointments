@@ -21,6 +21,7 @@ import { fonts } from "../theme/font"
 import { CardView } from "../components/card-view-animated"
 import { Icon } from "react-native-elements"
 import loader from "./assets/loading.json"
+import { connect } from "react-redux"
 
 const cards = {
   0: require('./assets/card1.png'),
@@ -90,7 +91,7 @@ const styles = StyleSheet.create({
 
 const renderItemSeparator = () => (<View style={styles.ItemSeparator}/>)
 
-export const CheckAppointment = (props) => {
+export const CheckAppointmentInternal = (props) => {
 
   const [isLoading, setLoading] = useState(true)
   const [isRefreshing, setRefreshing] = useState(false)
@@ -138,11 +139,12 @@ export const CheckAppointment = (props) => {
 
   const getList = async () => {
     try {
-      const url = `http://localhost:5001/book-appointments-37a0e/us-central1/getAppointments`
+      const url = `http://localhost:5001/book-appointments-37a0e/us-central1/getAppointments?appointeeEmail=${props.email}`
       const response: AxiosResponse = await axios.get(url)
       setList(response.data)
     } catch (error) {
       console.log('Error in sending request', error.message)
+      console.log('Error in sending request', error.data)
     }
   }
 
@@ -255,7 +257,7 @@ export const CheckAppointment = (props) => {
   return (
     <SafeAreaView style={styles.Container} edges={["top", "bottom"]}>
       <View style={{ flexDirection: 'row', marginLeft: -15, alignItems: 'center', marginBottom: 60 }}>
-        <Icon name={'drawer'} type={'simple-line-icon'} size={25} style={{ marginTop: 0 }} onPress={() => { props.navigation.dispatch(DrawerActions.toggleDrawer()) }}/>
+        <Icon name={'menu'} type={'simple-line-icon'} size={25} style={{ marginTop: 0 }} onPress={() => { props.navigation.dispatch(DrawerActions.toggleDrawer()) }}/>
 
         <View style={styles.HeaderContainer}>
           <Text style={styles.WelcomeText}>Check Appointment</Text>
@@ -288,3 +290,9 @@ export const CheckAppointment = (props) => {
     </SafeAreaView>
   )
 }
+
+const mapStateToProps = (state) => ({
+  email: state.auth.email,
+})
+
+export const CheckAppointment = connect(mapStateToProps, null)(CheckAppointmentInternal)
