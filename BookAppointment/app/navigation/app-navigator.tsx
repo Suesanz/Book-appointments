@@ -1,7 +1,7 @@
 import React from 'react'
 import { createNativeStackNavigator } from 'react-native-screens/native-stack'
 import { createDrawerNavigator, DrawerContentOptions, DrawerContentScrollView, DrawerItem } from '@react-navigation/drawer'
-import { Login, BookAppointment, CheckAppointment, SignUp, Home, QRCode } from '../screens'
+import { Login, BookAppointment, CheckAppointment, SignUp, Home, QRCode, Profile } from '../screens'
 import { connect } from "react-redux"
 import { Dimensions, StyleSheet, TextStyle, ViewStyle } from "react-native"
 import { fonts } from "../theme/font"
@@ -54,7 +54,7 @@ const DrawerContent = (props) => {
   return (
     <DrawerContentScrollView {...props}>
       <DrawerItem
-        label={'Profile'} onPress={() => {}}
+        label={'Profile'} onPress={() => { props.navigation.navigate('ProfileScreen') }}
         icon={() => <Icon name={'emotsmile'} type={'simple-line-icon'} />}
         style={{ height: 60, justifyContent: 'center', borderBottomWidth: 1, borderRadius: 0 }}
       />
@@ -94,6 +94,7 @@ const AuthNavigator = (props) => {
           {...props}
         >
           <Drawer.Screen options={{ drawerIcon: () => (<Icon name={'face'}/>) }} name={'HomeScreen'} component={Home}/>
+          <Drawer.Screen name={'ProfileScreen'} component={Profile}/>
           <Drawer.Screen name={'BookAppointmentScreen'} component={BookAppointment}/>
           <Drawer.Screen name={'CheckAppointmentScreen'} component={CheckAppointment}/>
           <Drawer.Screen name={'QRCodeScreen'} component={QRCode}/>

@@ -135,8 +135,6 @@ export const SignUpInternal = (props: SignUpProps) => {
   const [nameError, setNameError] = useState<string>('')
   const [uri, setUri] = useState<string>(null)
 
-  const profileImageRef = useRef<Image>(null)
-
   const emailInputRef = useRef<Input>(null)
   const passwordInputRef = useRef<Input>(null)
   const nameInputRef = useRef<Input>(null)
@@ -186,7 +184,7 @@ export const SignUpInternal = (props: SignUpProps) => {
   }
 
   return (
-    <SafeAreaView style={styles.Container} >
+    <SafeAreaView style={styles.Container}>
 
       <View style={styles.HeaderContainer}>
         <Text style={styles.WelcomeText}>Create Account,</Text>
@@ -195,7 +193,7 @@ export const SignUpInternal = (props: SignUpProps) => {
 
       <View style={styles.ProfileImageContainer} >
         <TouchableOpacity activeOpacity={0.6} style={{ borderRadius: 50 }} onPress={imageUploadHandler}>
-          {uri ? <Image ref={profileImageRef} source={{ uri }} resizeMode={'contain'}/>
+          {uri ? <Image source={{ uri }} resizeMode={'contain'}/>
             : <>
               <Icon name={'account-circle'} size={100} color={'#9EABB5'} />
               <Icon name={'edit'} containerStyle={styles.EditIconContainer} />
