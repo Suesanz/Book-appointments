@@ -9,6 +9,7 @@ import Device from "../utils/device"
 import Modal from 'react-native-modal'
 import LottieView from 'lottie-react-native'
 import success from '../screens/assets/success.json'
+import failed from '../screens/assets/failed.json'
 import { DrawerActions } from "@react-navigation/native"
 import { connect } from "react-redux"
 
@@ -86,7 +87,7 @@ const BookAppointmentInternal = (props) => {
   const [dateError, setDateError] = useState<string>('')
 
   const [isModalVisible, setModalVisible] = useState(false)
-  const [modalContent, setModalContent] = useState('')
+  const [modalContent, setModalContent] = useState({ message: '', success: false })
 
   const emailInputRef = useRef<Input>(null)
   const nameInputRef = useRef<Input>(null)
@@ -189,9 +190,9 @@ const BookAppointmentInternal = (props) => {
         console.log(response.status)
         console.log(response.data)
         console.log(response.statusText)
-        setModalContent('Appointment request sent successfully. Go to check appointment screen to view status of your appointment.')
+        setModalContent({ message: 'Appointment request sent successfully. Go to check appointment screen to view status of your appointment.', success: true })
       } catch (error) {
-        setModalContent('Appointment request failed. Please try again or contact support.')
+        setModalContent({ message: 'Appointment request failed. Please try again or contact support.', success: false })
         console.log('Error in sending request', error.message)
       }
 
@@ -313,16 +314,16 @@ const BookAppointmentInternal = (props) => {
           source={require('../screens/assets/success-background-2.jpg')} resizeMode={'stretch'}
           style={{ height: 500, justifyContent: 'center', alignItems: 'center', padding: 20, borderRadius: 25 }}
         >
-          <Text style={{ fontSize: 18, lineHeight: 35, color: '#000000', textAlign: 'auto', height: 150, marginHorizontal: 10 }}>{modalContent}</Text>
+          <Text style={{ fontSize: 18, lineHeight: 35, color: '#000000', textAlign: 'auto', height: 150, marginHorizontal: 10 }}>{modalContent.message}</Text>
           <LottieView
-            source={success}
-            loop={true}
+            source={modalContent.success ? success : failed}
             autoPlay={true}
+            loop={false}
             style={{ height: 100, alignSelf: 'center' }}
           />
           <Button
             title={'Okay'}
-            buttonStyle={{ backgroundColor: '#38ac7f', width: 200 }}
+            buttonStyle={{ backgroundColor: modalContent.success ? '#38ac7f' : '#e3342f', width: 200 }}
             titleStyle={{ textAlign: 'center' }}
             containerStyle={{ marginTop: 20 }}
             style={{ height: 100, alignItems: 'center', }}
