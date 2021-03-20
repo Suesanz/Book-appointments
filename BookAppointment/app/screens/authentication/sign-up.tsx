@@ -3,7 +3,7 @@ import { Text, View, StyleSheet, ViewStyle, TextStyle, TouchableOpacity, Image }
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { Button, Icon, Input } from 'react-native-elements'
 import validate from 'validate.js'
-import * as actions from "../../store/actions"
+import * as actions from '../../store/actions/auth-actions'
 import { connect } from "react-redux"
 import { launchCamera, launchImageLibrary } from 'react-native-image-picker'
 

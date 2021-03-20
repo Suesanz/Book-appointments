@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { DarkTheme, DefaultTheme, NavigationContainer } from '@react-navigation/native'
+import { DefaultTheme, NavigationContainer } from '@react-navigation/native'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
 import { enableScreens } from 'react-native-screens'
 import auth from '@react-native-firebase/auth'
@@ -13,11 +13,13 @@ import * as actionTypes from "./app/store/actions/auth-action-types"
 import messaging from '@react-native-firebase/messaging'
 import { Alert } from "react-native"
 import firestore from '@react-native-firebase/firestore'
+import { ProfileReducer } from './app/store/reducers/profile-reducer'
 
 enableScreens()
 
 const reducers = combineReducers({
-  auth: AuthReducer
+  auth: AuthReducer,
+  profile: ProfileReducer
 })
 
 const store = createStore(reducers, applyMiddleware(ReduxThunk))

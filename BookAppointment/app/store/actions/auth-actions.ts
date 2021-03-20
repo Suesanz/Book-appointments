@@ -11,7 +11,7 @@ export const signUp = (username: string, email: string, password: string) => {
       await firestore().collection('authUsers').add({
         userId: userInfo.uid,
         username,
-        email
+        email: email.toLowerCase()
       })
 
       dispatch ({

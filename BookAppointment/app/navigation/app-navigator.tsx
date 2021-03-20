@@ -6,7 +6,7 @@ import { connect } from "react-redux"
 import { Dimensions, StyleSheet, TextStyle, ViewStyle } from "react-native"
 import { fonts } from "../theme/font"
 import { Icon } from "react-native-elements"
-import * as actions from "../store/actions"
+import * as actions from "../store/actions/auth-actions"
 
 const AuthStack = createNativeStackNavigator()
 const Drawer = createDrawerNavigator()

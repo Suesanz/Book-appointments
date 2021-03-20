@@ -4,7 +4,7 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import { Button, Icon, Input } from 'react-native-elements'
 import validate from 'validate.js'
 import { connect } from "react-redux"
-import * as actions from '../../store/actions/index'
+import * as actions from '../../store/actions/auth-actions'
 import { Dispatch } from "redux"
 import Device from "../../utils/device"
 
