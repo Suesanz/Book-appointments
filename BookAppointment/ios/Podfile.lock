@@ -259,6 +259,9 @@ PODS:
   - Firebase/Messaging (7.7.0):
     - Firebase/CoreOnly
     - FirebaseMessaging (~> 7.7.0)
+  - Firebase/Storage (7.7.0):
+    - Firebase/CoreOnly
+    - FirebaseStorage (~> 7.7.0)
   - FirebaseAuth (7.7.0):
     - FirebaseCore (~> 7.0)
     - GoogleUtilities/AppDelegateSwizzler (~> 7.0)
@@ -302,6 +305,9 @@ PODS:
     - GoogleUtilities/Environment (~> 7.0)
     - GoogleUtilities/Reachability (~> 7.0)
     - GoogleUtilities/UserDefaults (~> 7.0)
+  - FirebaseStorage (7.7.0):
+    - FirebaseCore (~> 7.0)
+    - GTMSessionFetcher/Core (~> 1.4)
   - Flipper (0.54.0):
     - Flipper-Folly (~> 2.2)
     - Flipper-RSocket (~> 1.1)
@@ -665,6 +671,10 @@ PODS:
     - Firebase/Messaging (= 7.7.0)
     - React-Core
     - RNFBApp
+  - RNFBStorage (11.1.2):
+    - Firebase/Storage (= 7.7.0)
+    - React-Core
+    - RNFBApp
   - RNGestureHandler (1.7.0):
     - React
   - RNReanimated (1.13.2):
@@ -758,6 +768,7 @@ DEPENDENCIES:
   - "RNFBAuth (from `../node_modules/@react-native-firebase/auth`)"
   - "RNFBFirestore (from `../node_modules/@react-native-firebase/firestore`)"
   - "RNFBMessaging (from `../node_modules/@react-native-firebase/messaging`)"
+  - "RNFBStorage (from `../node_modules/@react-native-firebase/storage`)"
   - RNGestureHandler (from `../node_modules/react-native-gesture-handler`)
   - RNReanimated (from `../node_modules/react-native-reanimated`)
   - RNScreens (from `../node_modules/react-native-screens`)
@@ -793,6 +804,7 @@ SPEC REPOS:
     - FirebaseInstallations
     - FirebaseInstanceID
     - FirebaseMessaging
+    - FirebaseStorage
     - Flipper
     - Flipper-DoubleConversion
     - Flipper-Folly
@@ -893,6 +905,8 @@ EXTERNAL SOURCES:
     :path: "../node_modules/@react-native-firebase/firestore"
   RNFBMessaging:
     :path: "../node_modules/@react-native-firebase/messaging"
+  RNFBStorage:
+    :path: "../node_modules/@react-native-firebase/storage"
   RNGestureHandler:
     :path: "../node_modules/react-native-gesture-handler"
   RNReanimated:
@@ -955,6 +969,7 @@ SPEC CHECKSUMS:
   FirebaseInstallations: 42c86e7b02ff75b7f27f85833bf5dcb5f38a9774
   FirebaseInstanceID: cf940324a20ac14a27ad1e931d15ac9d335526db
   FirebaseMessaging: ce33c2537fdda1d1a4bc82b2245e3c3bf9107684
+  FirebaseStorage: 9b940765fa33494258fab6131b6180fc7c2d80f5
   Flipper: be611d4b742d8c87fbae2ca5f44603a02539e365
   Flipper-DoubleConversion: 38631e41ef4f9b12861c67d17cb5518d06badc41
   Flipper-Folly: e4493b013c02d9347d5e0cb4d128680239f6c78a
@@ -1003,6 +1018,7 @@ SPEC CHECKSUMS:
   RNFBAuth: 888e490f4bc371e6afa68d587c7c791976a5f52f
   RNFBFirestore: 2e602fc143aaae72d99333caa6d36266d6fa14aa
   RNFBMessaging: 43d7ae1f8b93d20ad3194cac3e31ca446d4e9828
+  RNFBStorage: 6ff2a58f6b02c42e8c325e80307350a0645b8e0b
   RNGestureHandler: b6b359bb800ae399a9c8b27032bdbf7c18f08a08
   RNReanimated: e03f7425cb7a38dcf1b644d680d1bfc91c3337ad
   RNScreens: b748efec66e095134c7166ca333b628cd7e6f3e2

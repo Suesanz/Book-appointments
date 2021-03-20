@@ -44,7 +44,7 @@ export const fetchProfile = () => {
 
 }
 
-export const updateProfile = (email: string, gender: string, address: string, uri: string) => {
+export const updateProfile = (email: string, gender: string, address: string) => {
   return async (dispatch: Dispatch) => {
 
     try {
@@ -52,7 +52,7 @@ export const updateProfile = (email: string, gender: string, address: string, ur
       console.log('email', email, gender, address)
       const docSnapshot = await collection.where('email', '==', email).get()
       if (!docSnapshot.empty) {
-        await docSnapshot.docs[0].ref.update({ gender, address, uri })
+        await docSnapshot.docs[0].ref.update({ gender, address })
         dispatch({
           type: actionTypes.SUCCESS,
           payload: {
@@ -119,8 +119,8 @@ export const setGender = (gender: string) => {
   }
 }
 
-export const setImageUri = (gender: string) => {
+export const setImageUri = (imageUri: string) => {
   return (dispatch: Dispatch) => {
-    dispatch({ type: actionTypes.SET_IMAGE_URI, payload: { gender } })
+    dispatch({ type: actionTypes.SET_IMAGE_URI, payload: { imageUri } })
   }
 }

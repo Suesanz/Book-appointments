@@ -7,6 +7,7 @@ import { launchImageLibrary } from 'react-native-image-picker'
 import { DrawerActions } from '@react-navigation/native'
 import * as actions from '../store/actions/profile-actions'
 import RadioForm, { RadioButton, RadioButtonInput, RadioButtonLabel } from 'react-native-simple-radio-button'
+import storage from '@react-native-firebase/storage'
 
 const styles = StyleSheet.create({
 
@@ -71,7 +72,7 @@ interface ProfileProps {
   imageUri: string
   setLoading: (arg0: boolean) => void
   fetchProfile: () => void
-  updateProfile: (emailValue: string, gender: string, addressValue: string, uri: string) => void
+  updateProfile: (emailValue: string, gender: string, addressValue: string) => void
   setError: (arg0: string) => void
   setAddress: (arg0: string) => void
   setGender: (arg0: string) => void
@@ -94,14 +95,21 @@ const ProfileInternal = (props: ProfileProps) => {
   const [genderError, setGenderError] = useState<string>('')
 
   const addressRef = useRef<Input>(null)
+  const reference = storage().ref(`${props.email}-profile-image.png`)
 
   const onAddressChangeText = (value: string) => { props.setAddress(value) }
 
-  console.log('props', props.address, props.gender)
-
   useEffect(() => {
     (async () => {
+      setIsImageLoading(true)
       await props.fetchProfile()
+      try {
+        const url = await storage().ref(`${props.email}-profile-image.png`).getDownloadURL()
+        props.setImageUri(url)
+      } catch (e) {
+
+      }
+      setIsImageLoading(false)
     })()
   }, [])
 
@@ -117,16 +125,19 @@ const ProfileInternal = (props: ProfileProps) => {
       if (isGenderError) setGenderError('Please select gender')
     } else {
       props.setLoading(true)
-      await props.updateProfile(props.email, props.gender, props.address, props.imageUri)
+      const pathToFile = `${props.imageUri}`
+      await reference.putFile(pathToFile)
+      await props.updateProfile(props.email, props.gender, props.address)
+
       props.setLoading(false)
     }
   }
 
   const imageUploadHandler = () => {
     setIsImageLoading(true)
-    launchImageLibrary({ mediaType: 'photo' }, media => {
-      if (media.uri) {
-        props.setImageUri(media.uri)
+    launchImageLibrary({ mediaType: 'photo' }, response => {
+      if (response.uri) {
+        props.setImageUri(response.uri)
       }
       setIsImageLoading(false)
     })
@@ -149,12 +160,12 @@ const ProfileInternal = (props: ProfileProps) => {
       <View style={styles.ProfileImageContainer}>
         <TouchableOpacity activeOpacity={0.6} style={{ borderRadius: 50 }} onPress={imageUploadHandler}>
           {isImageLoading
-            ? <ActivityIndicator size={'small'}/>
+            ? <ActivityIndicator size={'small'} color={'grey'}/>
             : (props.imageUri
               ? <Image
                 source={{ uri: props.imageUri }}
                 resizeMode={'stretch'}
-                style={{ height: 100, width: 100, borderRadius: 50, backgroundColor: 'red' }}
+                style={{ height: 100, width: 100, borderRadius: 50 }}
               />
               : <>
                 <Icon name={'account-circle'} size={100} color={'#9EABB5'}/>
@@ -261,7 +272,7 @@ const mapStateToProps = (state) => ({
 })
 
 const mapDispatchToProps = (dispatch) => ({
-  updateProfile: (emailValue: string, gender: string, address: string, uri: string) => dispatch(actions.updateProfile(emailValue, gender, address, uri)),
+  updateProfile: (emailValue: string, gender: string, address: string) => dispatch(actions.updateProfile(emailValue, gender, address)),
   fetchProfile: () => dispatch(actions.fetchProfile()),
   setError: (error: string) => dispatch(actions.setError(error)),
   setLoading: (isLoading: boolean) => dispatch(actions.setLoading(isLoading)),

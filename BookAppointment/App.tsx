@@ -37,12 +37,9 @@ export default function App() {
   const [initializing, setInitializing] = useState(true)
 
   const onAuthStateChanged = async (user) => {
-    // setUser(user)
     if (user) {
       const userInfoFromFirestore = {
         username: null,
-        // email: null,
-        // userId: null,
       }
       const dataFromFirestore = await firestore().collection('authUsers').get()
 
@@ -65,7 +62,7 @@ export default function App() {
     } else {
       store.dispatch({ type: actionTypes.LOGGEDIN, payload: { isLoggedIn: false } })
     }
-    console.log('onAuthStateChanged', !!user)
+    console.log('ON_AUTH_STATE_CHANGED', !!user)
     if (initializing) setInitializing(false)
   }
 
