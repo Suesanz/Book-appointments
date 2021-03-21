@@ -1,7 +1,7 @@
 import * as actionTypes from "../actions/profile-action-types"
 
 const initialState = {
-  userName: null,
+  username: null,
   email: null,
   userId: null,
   photoURL: null,
@@ -35,10 +35,6 @@ export const ProfileReducer = (state = initialState, action) => {
     }
 
     case actionTypes.SET_GENDER: {
-      return { ...state, ...action.payload }
-    }
-
-    case actionTypes.SET_IMAGE_URI: {
       return { ...state, ...action.payload }
     }
 

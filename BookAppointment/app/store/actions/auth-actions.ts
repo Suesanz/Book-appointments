@@ -11,16 +11,15 @@ export const signUp = (username: string, email: string, password: string) => {
       await firestore().collection('authUsers').add({
         userId: userInfo.uid,
         username,
-        email: email.toLowerCase()
+        email: email.toLowerCase(),
       })
 
       dispatch ({
         type: actionTypes.SIGN_UP,
         payload: {
-          username: username,
+          username,
           email: userInfo.email,
           userId: userInfo.uid,
-          photoURL: userInfo.photoURL,
           isLoggedIn: true
         }
       })
@@ -43,7 +42,8 @@ export const signUp = (username: string, email: string, password: string) => {
         type: actionTypes.SIGN_UP_ERROR,
         payload: {
           errorMessage: errorMessage,
-          isLoggedIn: false
+          isLoggedIn: false,
+          isLoading: false
         }
       })
     }
@@ -55,15 +55,13 @@ export const login = (email: string, password: string) => {
 
     const userInfoFromFirestore = {
       username: null,
-      // email: null,
-      // userId: null,
     }
 
     try {
 
       dispatch({ type: actionTypes.LOADING, payload: { isLoading: true } })
 
-      const userInfo = (await auth().signInWithEmailAndPassword(email, password)).user
+      const userInfo = (await auth().signInWithEmailAndPassword(email.toLowerCase(), password)).user
 
       const dataFromFirestore = await firestore().collection('authUsers').get()
 
@@ -80,9 +78,8 @@ export const login = (email: string, password: string) => {
         type: actionTypes.LOGIN,
         payload: {
           username: userInfoFromFirestore.username,
-          email: userInfo.email,
+          email: userInfo.email.toLowerCase(),
           userId: userInfo.uid,
-          photoURL: userInfo.photoURL,
           isLoggedIn: true
         }
       })
@@ -101,7 +98,8 @@ export const login = (email: string, password: string) => {
         type: actionTypes.LOGIN_ERROR,
         payload: {
           isLoggedIn: false,
-          errorMessage
+          isLoading: false,
+          errorMessage,
         }
       })
     }

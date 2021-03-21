@@ -1,10 +1,9 @@
 import * as actionTypes from "../actions/auth-action-types"
 
 const initialState = {
-  userName: null,
+  username: null,
   email: null,
   userId: null,
-  photoURL: null,
   errorMessage: null,
   isLoggedIn: false,
   isLoading: false
@@ -31,7 +30,6 @@ export const AuthReducer = (state = initialState, action) => {
     }
 
     case actionTypes.LOGOUT: {
-      console.log('', JSON.stringify(action))
       return { ...state, ...action.payload }
     }
 

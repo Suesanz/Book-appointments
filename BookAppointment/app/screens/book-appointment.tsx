@@ -1,5 +1,15 @@
 import React, { useRef, useState } from 'react'
-import { ImageBackground, Platform, StyleSheet, Text, TextStyle, TouchableOpacity, View, ViewStyle } from 'react-native'
+import {
+  ImageBackground,
+  Keyboard,
+  Platform,
+  StyleSheet,
+  Text,
+  TextStyle,
+  TouchableOpacity,
+  View,
+  ViewStyle
+} from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { Button, Icon, Input } from 'react-native-elements'
 import axios, { AxiosResponse } from 'axios'
@@ -183,7 +193,7 @@ const BookAppointmentInternal = (props) => {
     if (!error?.username && !error?.email && isDate) {
 
       try {
-        const url = `http://localhost:5001/book-appointments-37a0e/us-central1/sendMail?destEmail=${emailValue}&destName=${nameValue}&senderName=${props.userName}&senderEmail=${props.email}&time=${time}`
+        const url = `http://localhost:5001/book-appointments-37a0e/us-central1/sendMail?destEmail=${emailValue}&destName=${nameValue}&senderName=${props.username}&senderEmail=${props.email}&time=${time}`
         console.log('url', url)
         const response:AxiosResponse = await axios.get(url)
 
@@ -223,7 +233,11 @@ const BookAppointmentInternal = (props) => {
       {/* </View> */}
 
       <View style={{ flexDirection: 'row', marginLeft: -15, alignItems: 'center', marginBottom: 60 }}>
-        <Icon name={'menu'} type={'simple-line-icon'} size={25} style={{ marginTop: 0 }} onPress={() => { props.navigation.dispatch(DrawerActions.toggleDrawer()) }}/>
+        <Icon name={'menu'} type={'simple-line-icon'} size={25} style={{ marginTop: 0 }}
+          onPress={() => {
+            Keyboard.dismiss()
+            props.navigation.dispatch(DrawerActions.toggleDrawer()) }}
+        />
 
         <View style={styles.HeaderContainer}>
           <Text style={styles.WelcomeText}>Book Appointment</Text>

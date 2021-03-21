@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import {
   Animated,
   Dimensions,
-  FlatList, Image, ImageBackground,
+  FlatList, Image, ImageBackground, Keyboard,
   StyleSheet,
   Text,
   TextStyle,
@@ -170,6 +170,7 @@ export const CheckAppointmentInternal = (props) => {
   const Card = ({ index, item, y }: { index: number, item, y: Animated.Value }) => {
     const { width, height: wHeight } = Dimensions.get("window")
     const ratio = 200 / 362
+    // const ratio = 180 / 470
     const CARD_WIDTH = width * 0.8
     const DEFAULT_CARD_HEIGHT = CARD_WIDTH * ratio
     const MARGIN = 10
@@ -257,11 +258,14 @@ export const CheckAppointmentInternal = (props) => {
   return (
     <SafeAreaView style={styles.Container} edges={["top", "bottom"]}>
       <View style={{ flexDirection: 'row', marginLeft: -15, alignItems: 'center', marginBottom: 60 }}>
-        <Icon name={'menu'} type={'simple-line-icon'} size={25} style={{ marginTop: 0 }} onPress={() => { props.navigation.dispatch(DrawerActions.toggleDrawer()) }}/>
+        <Icon name={'menu'} type={'simple-line-icon'} size={25} style={{ marginTop: 0 }}
+          onPress={() => {
+            Keyboard.dismiss()
+            props.navigation.dispatch(DrawerActions.toggleDrawer()) }}
+        />
 
         <View style={styles.HeaderContainer}>
           <Text style={styles.WelcomeText}>Check Appointment</Text>
-          {/* <Text style={styles.SubWelcomeText}>Check all your appointments!</Text> */}
         </View>
       </View>
 

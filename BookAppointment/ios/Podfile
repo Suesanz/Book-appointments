@@ -18,6 +18,8 @@ target 'BookAppointment' do
 
   pod 'RNFBFirestore', :path => '../node_modules/@react-native-firebase/firestore'
 
+  pod 'RNSVG', :path => '../node_modules/react-native-svg'
+
   target 'BookAppointmentTests' do
     inherit! :complete
     # Pods for testing

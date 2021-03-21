@@ -1,12 +1,14 @@
-import React from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { createNativeStackNavigator } from 'react-native-screens/native-stack'
 import { createDrawerNavigator, DrawerContentOptions, DrawerContentScrollView, DrawerItem } from '@react-navigation/drawer'
 import { Login, BookAppointment, CheckAppointment, SignUp, Home, QRCode, Profile } from '../screens'
 import { connect } from "react-redux"
-import { Dimensions, StyleSheet, TextStyle, ViewStyle } from "react-native"
+import { Dimensions, Image, ImageStyle, StyleSheet, Text, TextStyle, TouchableOpacity, ViewStyle } from 'react-native'
 import { fonts } from "../theme/font"
 import { Icon } from "react-native-elements"
 import * as actions from "../store/actions/auth-actions"
+import storage from '@react-native-firebase/storage'
+import { AnimatedCircularProgress } from "react-native-circular-progress"
 
 const AuthStack = createNativeStackNavigator()
 const Drawer = createDrawerNavigator()
@@ -46,17 +48,74 @@ const styles = StyleSheet.create({
     height: 48,
     marginLeft: 16,
     marginRight: 8,
-  } as TextStyle
+  } as TextStyle,
+
+  ProfileImage: {
+    height: 70,
+    width: 70,
+    borderRadius: 50
+  } as ImageStyle
 
 })
 
 const DrawerContent = (props) => {
+  const [uri, setUri] = useState(null)
+  const circularProgressRef = useRef<AnimatedCircularProgress>(null)
+
+  const fetchProfileImage = async () => {
+    try {
+      const imageUrl = await storage().ref(`${props.email}-profile-image.png`).getDownloadURL()
+      setUri(imageUrl)
+    } catch (e) { }
+
+  }
+
+  // useFocusEffect(
+  //   React.useCallback(() => {
+  //     fetchProfileImage().catch()
+  //   }, [props.navigation])
+  // )
+
+  // useEffect(() => {
+  //   console.log('props?.navigation', props?.navigation)
+  //   const unsubscribe = props?.navigation.addListener('focus', (e) => {
+  //     fetchProfileImage().then()
+  //   })
+  //
+  //   return unsubscribe
+  // }, [props?.navigation])
+
+  useEffect(() => {
+    fetchProfileImage().then()
+  }, [])
+
   return (
     <DrawerContentScrollView {...props}>
       <DrawerItem
         label={'Profile'} onPress={() => { props.navigation.navigate('ProfileScreen') }}
-        icon={() => <Icon name={'emotsmile'} type={'simple-line-icon'} />}
-        style={{ height: 60, justifyContent: 'center', borderBottomWidth: 1, borderRadius: 0 }}
+        icon={() =>
+          <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }} onPress={() => { props.navigation.navigate('ProfileScreen') }}>
+            <AnimatedCircularProgress
+              ref={circularProgressRef}
+              size={75}
+              width={3}
+              fill={0}
+              prefill={0}
+              tintColor="#2189DC"
+              backgroundColor="#FFFFFF" >
+              {() => <Image
+                source={{ uri }}
+                resizeMode={'stretch'}
+                style={styles.ProfileImage}
+                defaultSource={require('../screens/assets/image-placeholder.png')}
+                onProgress={({ nativeEvent: { loaded, total } }) => { console.log('loaded', loaded); circularProgressRef.current.animate(100 / total * loaded, 500) }}
+              />}
+            </AnimatedCircularProgress>
+            <Text style={{ fontFamily: fonts.semibold, fontSize: 18, width: '70%', textAlign: 'center' }}>{props.username}</Text>
+          </TouchableOpacity>
+        }
+        style={{ height: 100, justifyContent: 'center', borderBottomWidth: 1, borderRadius: 0 }}
+        labelStyle={{ color: '#FFFFFF' }}
       />
       <DrawerItem label={'Home'} onPress={() => { props.navigation.navigate('HomeScreen') }} icon={() => <Icon name={'home'} type={'simple-line-icon'} />}/>
       <DrawerItem label={'Book Appointment'} onPress={() => { props.navigation.navigate('BookAppointmentScreen') }} icon={() => <Icon name={'notebook'} type={'simple-line-icon'} />}/>
@@ -68,11 +127,16 @@ const DrawerContent = (props) => {
   )
 }
 
+const mapStateToDrawerProps = (state) => ({
+  username: state.auth.username,
+  email: state.auth.email
+})
+
 const mapDispatchToProps = (dispatch) => ({
   logout: () => dispatch(actions.logout()),
 })
 
-const CustomDrawer = connect(null, mapDispatchToProps)(DrawerContent)
+const CustomDrawer = connect(mapStateToDrawerProps, mapDispatchToProps)(DrawerContent)
 
 const AuthNavigator = (props) => {
 

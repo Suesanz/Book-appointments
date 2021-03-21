@@ -5,7 +5,6 @@ import { Button, Icon, Input } from 'react-native-elements'
 import validate from 'validate.js'
 import { connect } from "react-redux"
 import * as actions from '../../store/actions/auth-actions'
-import { Dispatch } from "redux"
 import Device from "../../utils/device"
 
 const styles = StyleSheet.create({
@@ -72,7 +71,7 @@ const styles = StyleSheet.create({
 })
 
 const LoginInternal = (props) => {
-  const [emailValue, setEmailValue] = useState<string>(Device.isDebug ? 'movieshangover24x7@gmail.com' : '')
+  const [emailValue, setEmailValue] = useState<string>(Device.isDebug ? 'test@gmail.com' : '')
   const [passwordValue, setPasswordValue] = useState<string>(Device.isDebug ? 'ssssss' : '')
   const [emailError, setEmailError] = useState<string>('')
   const [passwordError, setPasswordError] = useState<string>('')

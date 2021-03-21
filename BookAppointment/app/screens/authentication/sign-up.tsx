@@ -1,11 +1,21 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { Text, View, StyleSheet, ViewStyle, TextStyle, TouchableOpacity, Image } from 'react-native'
+import {
+  Text,
+  View,
+  StyleSheet,
+  ViewStyle,
+  TextStyle,
+  TouchableOpacity,
+  Image,
+  KeyboardAvoidingView, ImageStyle, ActivityIndicator
+} from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { Button, Icon, Input } from 'react-native-elements'
 import validate from 'validate.js'
 import * as actions from '../../store/actions/auth-actions'
 import { connect } from "react-redux"
-import { launchCamera, launchImageLibrary } from 'react-native-image-picker'
+import { launchImageLibrary } from 'react-native-image-picker'
+import storage from '@react-native-firebase/storage'
 
 const styles = StyleSheet.create({
 
@@ -16,6 +26,7 @@ const styles = StyleSheet.create({
 
   HeaderContainer: {
     justifyContent: 'flex-start',
+    marginBottom: 40
   } as ViewStyle,
 
   WelcomeText: {
@@ -31,7 +42,6 @@ const styles = StyleSheet.create({
   } as TextStyle,
 
   InputContainer: {
-    flex: 0.4,
     justifyContent: 'center'
   } as ViewStyle,
 
@@ -40,7 +50,6 @@ const styles = StyleSheet.create({
   } as ViewStyle,
 
   FooterContainer: {
-    flex: 0.3,
     justifyContent: 'space-between'
   } as ViewStyle,
 
@@ -68,10 +77,20 @@ const styles = StyleSheet.create({
   } as TextStyle,
 
   ProfileImageContainer: {
-    flex: 0.3,
     justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: 'center',
+    borderRadius: 50,
+    height: 100,
+    width: 100,
+    marginBottom: 20,
+    alignSelf: 'center'
   } as ViewStyle,
+
+  ProfileImage: {
+    height: 100,
+    width: 100,
+    borderRadius: 50
+  } as ImageStyle,
 
   EditIconContainer: {
     position: "absolute",
@@ -86,9 +105,9 @@ const styles = StyleSheet.create({
 interface SignUpProps {
   setLoading: (arg0: boolean) => void
   signUp: (username: string, emailValue: string, passwordValue: string) => void
-  isLoggedIn: boolean
   navigation: { navigate: (arg0: string) => void }
   setError: (arg0: string) => void
+  isLoggedIn: boolean
   isLoading: boolean
   errorMessage: string
 }
@@ -134,6 +153,7 @@ export const SignUpInternal = (props: SignUpProps) => {
   const [passwordError, setPasswordError] = useState<string>('')
   const [nameError, setNameError] = useState<string>('')
   const [uri, setUri] = useState<string>(null)
+  const [isImageLoading, setIsImageLoading] = useState(false)
 
   const emailInputRef = useRef<Input>(null)
   const passwordInputRef = useRef<Input>(null)
@@ -149,7 +169,6 @@ export const SignUpInternal = (props: SignUpProps) => {
     }
   }, [props.isLoggedIn])
 
-  console.log('isLoggedIn', props.isLoggedIn)
   const signUpHandler = async () => {
     props.setLoading(true)
     nameInputRef.current && nameInputRef.current.blur()
@@ -163,9 +182,17 @@ export const SignUpInternal = (props: SignUpProps) => {
     error?.password && setPasswordError(error.password[0])
 
     if (!error?.username && !error?.email && !error?.password) {
-
       await props.signUp(nameValue, emailValue, passwordValue)
 
+      if (uri) {
+        const reference = storage().ref(`${emailValue?.toLowerCase()}-profile-image.png`)
+        const pathToFile = `${uri}`
+        try {
+          await reference.putFile(pathToFile)
+        } catch (e) {
+          props.setError('Image not supported!')
+        }
+      }
     } else {
       props.setError('Invalid credentials!')
     }
@@ -174,12 +201,12 @@ export const SignUpInternal = (props: SignUpProps) => {
   }
 
   const imageUploadHandler = async () => {
+    setIsImageLoading(true)
     launchImageLibrary({ mediaType: 'photo' }, response => {
       if (response.uri) {
         setUri(response.uri)
-      } else {
-        setUri(null)
       }
+      setIsImageLoading(false)
     })
   }
 
@@ -191,19 +218,24 @@ export const SignUpInternal = (props: SignUpProps) => {
         <Text style={styles.SubWelcomeText}> Sign up to get started!</Text>
       </View>
 
-      <View style={styles.ProfileImageContainer} >
-        <TouchableOpacity activeOpacity={0.6} style={{ borderRadius: 50 }} onPress={imageUploadHandler}>
-          {uri ? <Image source={{ uri }} resizeMode={'contain'}/>
+      <TouchableOpacity activeOpacity={0.6} style={styles.ProfileImageContainer} onPress={imageUploadHandler}>
+        {isImageLoading
+          ? <ActivityIndicator size={'small'} color={'grey'}/>
+          : (uri
+            ? <Image
+              source={{ uri }}
+              resizeMode={'stretch'}
+              style={styles.ProfileImage}
+            />
             : <>
-              <Icon name={'account-circle'} size={100} color={'#9EABB5'} />
-              <Icon name={'edit'} containerStyle={styles.EditIconContainer} />
+              <Icon name={'account-circle'} size={100} color={'#9EABB5'}/>
+              <Icon name={'edit'} containerStyle={styles.EditIconContainer}/>
             </>
-          }
+          )
+        }
+      </TouchableOpacity>
 
-        </TouchableOpacity>
-      </View>
-
-      <View style={styles.InputContainer}>
+      <KeyboardAvoidingView style={styles.InputContainer} behavior={'height'}>
         <Input
           ref={nameInputRef}
           placeholder={'Full name'}
@@ -239,7 +271,7 @@ export const SignUpInternal = (props: SignUpProps) => {
           secureTextEntry={true}
           autoCorrect={false}
         />
-      </View>
+      </KeyboardAvoidingView>
 
       <Text style={styles.SignUpError}>{props.errorMessage}</Text>
 

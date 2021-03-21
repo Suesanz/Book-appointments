@@ -49,7 +49,6 @@ export const updateProfile = (email: string, gender: string, address: string) =>
 
     try {
       const collection = await firestore().collection('authUsers')
-      console.log('email', email, gender, address)
       const docSnapshot = await collection.where('email', '==', email).get()
       if (!docSnapshot.empty) {
         await docSnapshot.docs[0].ref.update({ gender, address })
@@ -116,11 +115,5 @@ export const setAddress = (address: string) => {
 export const setGender = (gender: string) => {
   return (dispatch: Dispatch) => {
     dispatch({ type: actionTypes.SET_GENDER, payload: { gender } })
-  }
-}
-
-export const setImageUri = (imageUri: string) => {
-  return (dispatch: Dispatch) => {
-    dispatch({ type: actionTypes.SET_IMAGE_URI, payload: { imageUri } })
   }
 }
