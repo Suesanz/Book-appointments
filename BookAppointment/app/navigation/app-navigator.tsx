@@ -70,21 +70,6 @@ const DrawerContent = (props) => {
 
   }
 
-  // useFocusEffect(
-  //   React.useCallback(() => {
-  //     fetchProfileImage().catch()
-  //   }, [props.navigation])
-  // )
-
-  // useEffect(() => {
-  //   console.log('props?.navigation', props?.navigation)
-  //   const unsubscribe = props?.navigation.addListener('focus', (e) => {
-  //     fetchProfileImage().then()
-  //   })
-  //
-  //   return unsubscribe
-  // }, [props?.navigation])
-
   useEffect(() => {
     fetchProfileImage().then()
   }, [])
@@ -122,7 +107,7 @@ const DrawerContent = (props) => {
       <DrawerItem label={'Check Appointment'} onPress={() => { props.navigation.navigate('CheckAppointmentScreen') }} icon={() => <Icon name={'check'} type={'simple-line-icon'} />}/>
       <DrawerItem label={'Logout'} onPress={() => { props.logout() }} icon={() => <Icon name={'logout'} type={'simple-line-icon'} />}/>
       <DrawerItem label={'Dark Mode'} onPress={() => {}} icon={() => <Icon name={'theme-light-dark'} type={'material-community'} />}/>
-      <DrawerItem label={'App version 0.1'} onPress={() => {}} icon={() => <Icon name={'versions'} type={'octicon'} />} />
+      <DrawerItem label={'App version 0.1'} onPress={() => {}} icon={() => <Icon name={'versions'} type={'octicon'} activeOpacity={1}/>} />
     </DrawerContentScrollView>
   )
 }

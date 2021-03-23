@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import { DefaultTheme, NavigationContainer } from '@react-navigation/native'
+import { DefaultTheme, NavigationContainer, DarkTheme } from '@react-navigation/native'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
 import { enableScreens } from 'react-native-screens'
 import auth from '@react-native-firebase/auth'
@@ -11,7 +11,7 @@ import { AuthReducer } from "./app/store/reducers/auth-reducer"
 import { initFonts } from "./app/theme/font"
 import * as actionTypes from "./app/store/actions/auth-action-types"
 import messaging from '@react-native-firebase/messaging'
-import { Alert } from "react-native"
+import { Alert, useColorScheme } from 'react-native'
 import firestore from '@react-native-firebase/firestore'
 import { ProfileReducer } from './app/store/reducers/profile-reducer'
 
@@ -24,17 +24,28 @@ const reducers = combineReducers({
 
 const store = createStore(reducers, applyMiddleware(ReduxThunk))
 
+const MyDarkTheme = {
+  ...DarkTheme,
+  colors: {
+    ...DarkTheme.colors,
+    backgroundColor: '#000',
+    text: '#FFFFFF'
+  },
+}
+
 const MyTheme = {
   ...DefaultTheme,
   colors: {
     ...DefaultTheme.colors,
-    primary: 'rgb(255, 45, 85)',
+    backgroundColor: '#FFFFFF',
+    text: '#000'
   },
 }
 
 export default function App() {
 
   const [initializing, setInitializing] = useState(true)
+  const scheme = useColorScheme()
 
   const onAuthStateChanged = async (user) => {
     if (user) {
@@ -124,7 +135,7 @@ export default function App() {
   return (
     <Provider store={store}>
       <SafeAreaProvider>
-        <NavigationContainer theme={MyTheme}>
+        <NavigationContainer theme={scheme === 'dark' ? MyDarkTheme : MyTheme}>
           <AuthNavigator />
         </NavigationContainer>
       </SafeAreaProvider>
