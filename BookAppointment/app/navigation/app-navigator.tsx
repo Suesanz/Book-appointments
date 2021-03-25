@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { createNativeStackNavigator } from 'react-native-screens/native-stack'
 import { createDrawerNavigator, DrawerContentOptions, DrawerContentScrollView, DrawerItem } from '@react-navigation/drawer'
-import { Login, BookAppointment, CheckAppointment, SignUp, Home, QRCode, Profile } from '../screens'
+import { Login, BookAppointment, CheckAppointment, SignUp, Home, QRCode, Profile, ContactUs } from '../screens'
 import { connect } from "react-redux"
 import { Dimensions, Image, ImageStyle, StyleSheet, Text, TextStyle, TouchableOpacity, ViewStyle } from 'react-native'
 import { fonts } from "../theme/font"
@@ -105,8 +105,9 @@ const DrawerContent = (props) => {
       <DrawerItem label={'Home'} onPress={() => { props.navigation.navigate('HomeScreen') }} icon={() => <Icon name={'home'} type={'simple-line-icon'} />}/>
       <DrawerItem label={'Book Appointment'} onPress={() => { props.navigation.navigate('BookAppointmentScreen') }} icon={() => <Icon name={'notebook'} type={'simple-line-icon'} />}/>
       <DrawerItem label={'Check Appointment'} onPress={() => { props.navigation.navigate('CheckAppointmentScreen') }} icon={() => <Icon name={'check'} type={'simple-line-icon'} />}/>
-      <DrawerItem label={'Logout'} onPress={() => { props.logout() }} icon={() => <Icon name={'logout'} type={'simple-line-icon'} />}/>
       <DrawerItem label={'Dark Mode'} onPress={() => {}} icon={() => <Icon name={'theme-light-dark'} type={'material-community'} />}/>
+      <DrawerItem label={'Contact us'} onPress={() => {props.navigation.navigate('ContactUs')}} icon={() => <Icon name={'contact-support'} type={'material'} />}/>
+      <DrawerItem label={'Logout'} onPress={() => { props.logout() }} icon={() => <Icon name={'logout'} type={'simple-line-icon'} />}/>
       <DrawerItem label={'App version 0.1'} onPress={() => {}} icon={() => <Icon name={'versions'} type={'octicon'} activeOpacity={1}/>} />
     </DrawerContentScrollView>
   )
@@ -147,6 +148,7 @@ const AuthNavigator = (props) => {
           <Drawer.Screen name={'BookAppointmentScreen'} component={BookAppointment}/>
           <Drawer.Screen name={'CheckAppointmentScreen'} component={CheckAppointment}/>
           <Drawer.Screen name={'QRCodeScreen'} component={QRCode}/>
+          <Drawer.Screen name={'ContactUs'} component={ContactUs}/>
         </Drawer.Navigator>
 
       }
