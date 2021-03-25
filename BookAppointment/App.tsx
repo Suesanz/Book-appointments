@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
 import { DefaultTheme, NavigationContainer, DarkTheme } from '@react-navigation/native'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
 import { enableScreens } from 'react-native-screens'
@@ -11,9 +11,11 @@ import { AuthReducer } from "./app/store/reducers/auth-reducer"
 import { initFonts } from "./app/theme/font"
 import * as actionTypes from "./app/store/actions/auth-action-types"
 import messaging from '@react-native-firebase/messaging'
-import { Alert, useColorScheme } from 'react-native'
+import { Alert, useColorScheme, View } from 'react-native'
 import firestore from '@react-native-firebase/firestore'
 import { ProfileReducer } from './app/store/reducers/profile-reducer'
+import AnimatedLottieView from 'lottie-react-native'
+import { SplashScreen } from './app/screens'
 
 enableScreens()
 
@@ -46,6 +48,7 @@ export default function App() {
 
   const [initializing, setInitializing] = useState(true)
   const scheme = useColorScheme()
+  const checkAnimationComplete = useRef(false)
 
   const onAuthStateChanged = async (user) => {
     if (user) {
@@ -74,7 +77,15 @@ export default function App() {
       store.dispatch({ type: actionTypes.LOGGEDIN, payload: { isLoggedIn: false } })
     }
     console.log('ON_AUTH_STATE_CHANGED', !!user)
-    if (initializing) setInitializing(false)
+    if (initializing && !checkAnimationComplete.current) {
+      checkAnimationComplete.current = true
+    }
+  }
+
+  const setOnAnimationFinished = () => {
+    if (checkAnimationComplete.current) {
+      setInitializing(false)
+    }
   }
 
   // const getFcmToken = async () => {
@@ -130,7 +141,7 @@ export default function App() {
     })()
   }, [])
 
-  if (initializing) return null
+  if (initializing) return <SplashScreen setOnAnimationFinished={setOnAnimationFinished}/>
 
   return (
     <Provider store={store}>

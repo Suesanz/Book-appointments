@@ -24,6 +24,7 @@ import { CardView } from '../components/card-view-animated'
 import { Icon } from 'react-native-elements'
 import loader from './assets/loading.json'
 import { connect } from 'react-redux'
+import axios, { AxiosResponse } from 'axios'
 
 const cards = {
   0: require('./assets/card1.png'),
@@ -141,9 +142,9 @@ export const CheckAppointmentInternal = (props) => {
 
   const getList = async () => {
     try {
-      // const url = `http://localhost:5001/book-appointments-37a0e/us-central1/getAppointments?appointeeEmail=${props.email}`
-      // const response: AxiosResponse = await axios.get(url)
-      // setList(response.data)
+      const url = `http://localhost:5001/book-appointments-37a0e/us-central1/getAppointments?appointeeEmail=${props.email}`
+      const response: AxiosResponse = await axios.get(url)
+      setList(response.data)
     } catch (error) {
       console.log('Error in sending request. Message: ', error.message)
       console.log('Error in sending request. Data: ', error.data)
