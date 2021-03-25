@@ -106,7 +106,7 @@ const DrawerContent = (props) => {
       <DrawerItem label={'Book Appointment'} onPress={() => { props.navigation.navigate('BookAppointmentScreen') }} icon={() => <Icon name={'notebook'} type={'simple-line-icon'} />}/>
       <DrawerItem label={'Check Appointment'} onPress={() => { props.navigation.navigate('CheckAppointmentScreen') }} icon={() => <Icon name={'check'} type={'simple-line-icon'} />}/>
       <DrawerItem label={'Dark Mode'} onPress={() => {}} icon={() => <Icon name={'theme-light-dark'} type={'material-community'} />}/>
-      <DrawerItem label={'Contact us'} onPress={() => {props.navigation.navigate('ContactUs')}} icon={() => <Icon name={'contact-support'} type={'material'} />}/>
+      <DrawerItem label={'Contact me'} onPress={() => { props.navigation.navigate('ContactUs') }} icon={() => <Icon name={'contact-support'} type={'material'} />}/>
       <DrawerItem label={'Logout'} onPress={() => { props.logout() }} icon={() => <Icon name={'logout'} type={'simple-line-icon'} />}/>
       <DrawerItem label={'App version 0.1'} onPress={() => {}} icon={() => <Icon name={'versions'} type={'octicon'} activeOpacity={1}/>} />
     </DrawerContentScrollView>
@@ -129,12 +129,12 @@ const AuthNavigator = (props) => {
   return (
     <>
       {!props.isLoggedIn
-        ? <AuthStack.Navigator screenOptions={{ headerBackTitleVisible: false, headerShown: false, gestureEnabled: true }}>
+        ? <AuthStack.Navigator screenOptions={{ headerBackTitleVisible: false, headerShown: false, gestureEnabled: true, stackAnimation: 'default' }}>
           <AuthStack.Screen name={'LoginScreen'} component={Login}/>
           <AuthStack.Screen name={'SignUpScreen'} component={SignUp}/>
         </AuthStack.Navigator>
         : <Drawer.Navigator
-          screenOptions={{ headerShown: false, swipeEnabled: true }}
+          screenOptions={{ headerShown: false, swipeEnabled: true, gestureEnabled: true }}
           drawerStyle={styles.DrawerStyle}
           drawerContentOptions={drawerContentOptions}
           drawerContent={(props) => <CustomDrawer {...props}/>}

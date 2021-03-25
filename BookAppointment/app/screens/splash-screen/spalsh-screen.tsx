@@ -34,6 +34,7 @@ export const SplashScreen = (props) => {
       </View>
       <AnimatedLottieView
         loop={false}
+        // @ts-ignore
         source={book}
         autoPlay={true}
         onAnimationFinish={() => {
