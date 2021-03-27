@@ -14,12 +14,14 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import { Button, Icon, Input } from 'react-native-elements'
 import axios, { AxiosResponse } from 'axios'
 import validate from "validate.js"
-import { RNDateTimePicker } from "../components/date-time-picker"
-import Device from "../utils/device"
+import { RNDateTimePicker } from "../../components/date-time-picker/date-time-picker"
+import Device from "../../utils/device"
 import Modal from 'react-native-modal'
 import LottieView from 'lottie-react-native'
-import success from '../screens/assets/success.json'
-import failed from '../screens/assets/failed.json'
+import success from '../assets/success.json'
+import success2 from '../assets/success-2.json'
+import failed from '../assets/failed.json'
+import failed2 from '../assets/failed-2.json'
 import { DrawerActions } from "@react-navigation/native"
 import { connect } from "react-redux"
 
@@ -49,7 +51,8 @@ const styles = StyleSheet.create({
   SubWelcomeText: {
     fontSize: 20,
     fontWeight: 'normal',
-    color: '#9EABB5'
+    color: '#9EABB5',
+    marginBottom: 40
   } as TextStyle,
 
   InputContainer: {
@@ -86,8 +89,8 @@ const BookAppointmentInternal = (props) => {
   const [date, setDate] = useState<Date>(new Date(Date.now()))
   const [mode, setMode] = useState<'time'|'date'|undefined>('date')
 
-  const [nameValue, setNameValue] = useState<string>(Device.isDebug ? 'Sourav' : '')
-  const [emailValue, setEmailValue] = useState<string>(Device.isDebug ? 'thesuesanz00@gmail.com' : '')
+  const [nameValue, setNameValue] = useState<string>('')
+  const [emailValue, setEmailValue] = useState<string>('')
 
   const [isLoading, setLoading] = useState<boolean>(false)
   const [isPickerVisible, setPickerVisible] = useState<boolean>(false)
@@ -161,14 +164,12 @@ const BookAppointmentInternal = (props) => {
 
     if (updateTime) {
       const currentDate = selectedDate || date
-      console.log('currentDate', currentDate)
       setDate(currentDate)
 
       const newTime = currentDate.toLocaleTimeString('en-US', { hour: 'numeric', minute: 'numeric', hour12: true })
       const newDate = currentDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })
 
       setTime(newTime + ',  ' + newDate)
-      console.log('time', newTime + ',  ' + newDate)
     }
 
   }
@@ -225,14 +226,7 @@ const BookAppointmentInternal = (props) => {
         onChange={pickerHandler}
       />
 
-      {/* <View style={styles.HeaderContainer}> */}
-      {/*  <Text style={styles.WelcomeText}>Book Appointment</Text> */}
-      {/*  <Text style={styles.SubWelcomeText}> */}
-      {/*    Enter details of the appointer! */}
-      {/*  </Text> */}
-      {/* </View> */}
-
-      <View style={{ flexDirection: 'row', marginLeft: -15, alignItems: 'center', marginBottom: 60 }}>
+      <View style={{ flexDirection: 'row', marginLeft: -15, alignItems: 'center', marginBottom: 40 }}>
         <Icon name={'menu'} type={'simple-line-icon'} size={25} style={{ marginTop: 0 }}
           onPress={() => {
             Keyboard.dismiss()
@@ -241,9 +235,9 @@ const BookAppointmentInternal = (props) => {
 
         <View style={styles.HeaderContainer}>
           <Text style={styles.WelcomeText}>Book Appointment</Text>
-          {/* <Text style={styles.SubWelcomeText}>Check all your appointments!</Text> */}
         </View>
       </View>
+      <Text style={styles.SubWelcomeText}>Please enter the details of the appointer!</Text>
       <View style={styles.InputContainer}>
         <Input
           ref={nameInputRef}
@@ -254,6 +248,7 @@ const BookAppointmentInternal = (props) => {
           onChangeText={onNameChangeText}
           errorMessage={nameError}
           onFocus={() => setNameError('')}
+          autoCorrect={false}
           autoFocus
         />
         <Input
@@ -265,6 +260,7 @@ const BookAppointmentInternal = (props) => {
           onChangeText={onEmailChangeText}
           errorMessage={emailError}
           onFocus={() => { setEmailError('') }}
+          autoCorrect={false}
         />
         <TouchableOpacity
           activeOpacity={1}
@@ -324,26 +320,24 @@ const BookAppointmentInternal = (props) => {
         animationOutTiming={75}
         backdropTransitionOutTiming={0}
       >
-        <ImageBackground
-          source={require('../screens/assets/success-background-2.jpg')} resizeMode={'stretch'}
-          style={{ height: 500, justifyContent: 'center', alignItems: 'center', padding: 20, borderRadius: 25 }}
-        >
-          <Text style={{ fontSize: 18, lineHeight: 35, color: '#000000', textAlign: 'auto', height: 150, marginHorizontal: 10 }}>{modalContent.message}</Text>
+        <View style={{ height: 400, alignItems: 'center', padding: 20, borderRadius: 25, backgroundColor: '#F6F5F5' }}>
+          <Text style={{ fontSize: 18, lineHeight: 30, color: '#000000', height: modalContent.success ? 150 : 110, marginHorizontal: 10 }}>{modalContent.message}</Text>
           <LottieView
-            source={modalContent.success ? success : failed}
+            source={modalContent.success ? success2 : failed2}
             autoPlay={true}
             loop={false}
-            style={{ height: 100, alignSelf: 'center' }}
+            style={{ height: modalContent.success ? 120 : 185, alignSelf: 'center', marginBottom: modalContent.success ? 20 : 0 }}
           />
           <Button
             title={'Okay'}
             buttonStyle={{ backgroundColor: modalContent.success ? '#38ac7f' : '#e3342f', width: 200 }}
             titleStyle={{ textAlign: 'center' }}
             containerStyle={{ marginTop: 20 }}
-            style={{ height: 100, alignItems: 'center', }}
+            style={{ alignItems: 'center', }}
             onPress={() => { setModalVisible(false) }}
           />
-        </ImageBackground>
+        </View>
+        {/* </ImageBackground> */}
       </Modal>
 
     </SafeAreaView>

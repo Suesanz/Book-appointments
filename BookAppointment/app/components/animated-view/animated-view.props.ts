@@ -1,7 +1,7 @@
 import React from 'react'
 import { ViewStyle } from 'react-native'
 
-export interface CardViewProps {
+export interface AnimatedViewProps {
   children: React.ReactNode,
   style?: ViewStyle | ViewStyle[],
   disabled?: boolean,

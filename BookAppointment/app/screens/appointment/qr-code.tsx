@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { Image, ImageStyle, StyleSheet, Text, TextStyle, View, ViewStyle } from "react-native"
 import LottieView from "lottie-react-native"
-import loader from "./assets/loading.json"
+import loader from "../assets/loading.json"
 import { Icon } from "react-native-elements"
 import { DrawerActions } from "@react-navigation/native"
 

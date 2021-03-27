@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { createNativeStackNavigator } from 'react-native-screens/native-stack'
 import { createDrawerNavigator, DrawerContentOptions, DrawerContentScrollView, DrawerItem } from '@react-navigation/drawer'
-import { Login, BookAppointment, CheckAppointment, SignUp, Home, QRCode, Profile, ContactUs } from '../screens'
+import { Login, BookAppointment, CheckAppointment, SignUp, Home, QRCode, Profile, ContactMe } from '../screens'
 import { connect } from "react-redux"
 import { Dimensions, Image, ImageStyle, StyleSheet, Text, TextStyle, TouchableOpacity, ViewStyle } from 'react-native'
 import { fonts } from "../theme/font"
@@ -9,9 +9,11 @@ import { Icon } from "react-native-elements"
 import * as actions from "../store/actions/auth-actions"
 import storage from '@react-native-firebase/storage'
 import { AnimatedCircularProgress } from "react-native-circular-progress"
+import { RNWebView } from '../screens/webview/webview'
 
 const AuthStack = createNativeStackNavigator()
 const Drawer = createDrawerNavigator()
+const Stack = createNativeStackNavigator()
 
 const { width } = Dimensions.get('window')
 
@@ -74,12 +76,19 @@ const DrawerContent = (props) => {
     fetchProfileImage().then()
   }, [])
 
+  const getLabel = (focused: boolean, label: string) => {
+    return <Text style={{ fontSize: 14, color: focused ? '#2189DC' : `rgba(0, 0, 0, 0.8)` }}>{label}</Text>
+  }
+
   return (
     <DrawerContentScrollView {...props}>
       <DrawerItem
         label={'Profile'} onPress={() => { props.navigation.navigate('ProfileScreen') }}
         icon={() =>
-          <TouchableOpacity style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }} onPress={() => { props.navigation.navigate('ProfileScreen') }}>
+          <TouchableOpacity
+            style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}
+            onPress={() => { props.navigation.navigate('ProfileScreen') }}
+          >
             <AnimatedCircularProgress
               ref={circularProgressRef}
               size={75}
@@ -90,25 +99,24 @@ const DrawerContent = (props) => {
               backgroundColor="#FFFFFF" >
               {() => <Image
                 source={{ uri }}
-                resizeMode={'stretch'}
+                resizeMode={'cover'}
                 style={styles.ProfileImage}
                 defaultSource={require('../screens/assets/image-placeholder.png')}
-                onProgress={({ nativeEvent: { loaded, total } }) => { console.log('loaded', loaded); circularProgressRef.current.animate(100 / total * loaded, 500) }}
+                onProgress={({ nativeEvent: { loaded, total } }) => { circularProgressRef.current.animate(100 / total * loaded, 500) }}
               />}
             </AnimatedCircularProgress>
             <Text style={{ fontFamily: fonts.semibold, fontSize: 18, width: '70%', textAlign: 'center' }}>{props.username}</Text>
           </TouchableOpacity>
         }
-        style={{ height: 100, justifyContent: 'center', borderBottomWidth: 1, borderRadius: 0 }}
-        labelStyle={{ color: '#FFFFFF' }}
+        style={{ height: 100, justifyContent: 'center', borderBottomWidth: 2, borderRadius: 0, borderBottomColor: '#2189DC' }}
       />
-      <DrawerItem label={'Home'} onPress={() => { props.navigation.navigate('HomeScreen') }} icon={() => <Icon name={'home'} type={'simple-line-icon'} />}/>
-      <DrawerItem label={'Book Appointment'} onPress={() => { props.navigation.navigate('BookAppointmentScreen') }} icon={() => <Icon name={'notebook'} type={'simple-line-icon'} />}/>
-      <DrawerItem label={'Check Appointment'} onPress={() => { props.navigation.navigate('CheckAppointmentScreen') }} icon={() => <Icon name={'check'} type={'simple-line-icon'} />}/>
-      <DrawerItem label={'Dark Mode'} onPress={() => {}} icon={() => <Icon name={'theme-light-dark'} type={'material-community'} />}/>
-      <DrawerItem label={'Contact me'} onPress={() => { props.navigation.navigate('ContactUs') }} icon={() => <Icon name={'contact-support'} type={'material'} />}/>
-      <DrawerItem label={'Logout'} onPress={() => { props.logout() }} icon={() => <Icon name={'logout'} type={'simple-line-icon'} />}/>
-      <DrawerItem label={'App version 0.1'} onPress={() => {}} icon={() => <Icon name={'versions'} type={'octicon'} activeOpacity={1}/>} />
+      <DrawerItem label={({ focused }) => getLabel(focused, 'Home')} onPress={() => { props.navigation.navigate('HomeScreen') }} icon={() => <Icon name={'home'} type={'simple-line-icon'} />}/>
+      <DrawerItem label={({ focused }) => getLabel(focused, 'Book Appointment')} onPress={() => { props.navigation.navigate('BookAppointmentScreen') }} icon={() => <Icon name={'notebook'} type={'simple-line-icon'} />}/>
+      <DrawerItem label={({ focused }) => getLabel(focused, 'Check Appointment')} onPress={() => { props.navigation.navigate('CheckAppointmentScreen') }} icon={() => <Icon name={'check'} type={'simple-line-icon'} />}/>
+      <DrawerItem label={({ focused }) => getLabel(focused, 'Contact me')} onPress={() => { props.navigation.navigate('ContactUs') }} icon={() => <Icon name={'contact-support'} type={'material'} />}/>
+      <DrawerItem label={({ focused }) => getLabel(focused, 'Dark Mode (Coming Soon)')} onPress={() => {}} icon={() => <Icon name={'theme-light-dark'} type={'material-community'} />}/>
+      <DrawerItem label={({ focused }) => getLabel(focused, 'Logout')} onPress={() => { props.logout() }} icon={() => <Icon name={'logout'} type={'simple-line-icon'} />}/>
+      <DrawerItem label={({ focused }) => getLabel(focused, 'App version 0.1')} onPress={() => {}} icon={() => <Icon name={'versions'} type={'octicon'} activeOpacity={1}/>} />
     </DrawerContentScrollView>
   )
 }
@@ -123,6 +131,20 @@ const mapDispatchToProps = (dispatch) => ({
 })
 
 const CustomDrawer = connect(mapStateToDrawerProps, mapDispatchToProps)(DrawerContent)
+
+const StackNavigator = () => {
+  return (
+    <Stack.Navigator screenOptions={{ stackAnimation: 'default', gestureEnabled: true, headerShown: false }} initialRouteName={'HomeScreen'}>
+      <Stack.Screen name={'HomeScreen'} component={Home}/>
+      <Stack.Screen name={'ProfileScreen'} component={Profile}/>
+      <Stack.Screen name={'BookAppointmentScreen'} component={BookAppointment}/>
+      <Stack.Screen name={'CheckAppointmentScreen'} component={CheckAppointment}/>
+      <Stack.Screen name={'QRCodeScreen'} component={QRCode}/>
+      <Stack.Screen name={'ContactUs'} component={ContactMe}/>
+      <Stack.Screen name={'WebView'} component={RNWebView}/>
+    </Stack.Navigator>
+  )
+}
 
 const AuthNavigator = (props) => {
 
@@ -143,12 +165,7 @@ const AuthNavigator = (props) => {
           lazy={true}
           {...props}
         >
-          <Drawer.Screen options={{ drawerIcon: () => (<Icon name={'face'}/>) }} name={'HomeScreen'} component={Home}/>
-          <Drawer.Screen name={'ProfileScreen'} component={Profile}/>
-          <Drawer.Screen name={'BookAppointmentScreen'} component={BookAppointment}/>
-          <Drawer.Screen name={'CheckAppointmentScreen'} component={CheckAppointment}/>
-          <Drawer.Screen name={'QRCodeScreen'} component={QRCode}/>
-          <Drawer.Screen name={'ContactUs'} component={ContactUs}/>
+          <Drawer.Screen name={'StackNavigator'} component={StackNavigator}/>
         </Drawer.Navigator>
 
       }

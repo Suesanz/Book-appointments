@@ -11,7 +11,7 @@ import { AuthReducer } from "./app/store/reducers/auth-reducer"
 import { initFonts } from "./app/theme/font"
 import * as actionTypes from "./app/store/actions/auth-action-types"
 import messaging from '@react-native-firebase/messaging'
-import { Alert, useColorScheme, View } from 'react-native'
+import { Alert, LogBox, useColorScheme, View, YellowBox } from 'react-native'
 import firestore from '@react-native-firebase/firestore'
 import { ProfileReducer } from './app/store/reducers/profile-reducer'
 import AnimatedLottieView from 'lottie-react-native'
@@ -81,6 +81,8 @@ export default function App() {
       checkAnimationComplete.current = true
     }
   }
+
+  LogBox.ignoreAllLogs(true)
 
   const setOnAnimationFinished = () => {
     if (checkAnimationComplete.current) {

@@ -1,4 +1,4 @@
-import React, { Component, FunctionComponent, memo } from "react"
+import React, { FunctionComponent, memo } from "react"
 import { Platform, View } from "react-native"
 import ReactNativeModal from "react-native-modal"
 import { Button } from "react-native-elements"
@@ -31,6 +31,7 @@ export const RNDateTimePicker:FunctionComponent<RNDateTimePickerProps> = memo((p
           mode={mode}
           is24Hour={false}
           onChange={onChange}
+          display={'spinner'}
         />
         <View style={{ flexDirection: 'row', justifyContent: 'space-around', marginVertical: 10 }}>
           <Button title={'OK'} style={{ width: 80 }} titleStyle={{ fontSize: 14 }} onPress={onSelect}/>

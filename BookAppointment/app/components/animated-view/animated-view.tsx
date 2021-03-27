@@ -1,17 +1,15 @@
 import React, { useRef, memo } from 'react'
 import { Animated, View } from 'react-native'
-import { CardViewProps } from './card-view.props'
-import { styles, shadow } from './card-view.styles'
+import { AnimatedViewProps } from './animated-view.props'
+import { styles } from './animated-view.styles'
 import { TouchableOpacity } from 'react-native-gesture-handler'
 
 const DEFAULT_SPEED = 75
 
-export const RenderCardViewWithAnimation: React.FunctionComponent<CardViewProps> = memo(props => {
-  const { children, style, disabled, onPress, speed = DEFAULT_SPEED, shadowRatio = 1 } = props
+export const RenderCardViewWithAnimation: React.FunctionComponent<AnimatedViewProps> = memo( props => {
+  const { children, style, disabled, onPress, speed = DEFAULT_SPEED } = props
 
   const animated = useRef(new Animated.Value(1)).current
-
-  const animatedShadow = Animated.multiply(animated, shadowRatio)
 
   const shadowActive = () => {
     Animated.timing(animated, {
@@ -36,7 +34,6 @@ export const RenderCardViewWithAnimation: React.FunctionComponent<CardViewProps>
     <Animated.View style={[
       styles.Container,
       style,
-      // disabled ? styles.Disabled : shadow(animatedShadow),
       {
         transform: [{
           translateY,
@@ -82,13 +79,12 @@ const renderCardView = (children, style) => {
   )
 }
 
-export const CardView: React.FunctionComponent<CardViewProps> = memo(props => {
+export const CardView: React.FunctionComponent<AnimatedViewProps> = memo( props => {
   const { children, style, disabled, onPress, speed = DEFAULT_SPEED, isShowAnimation, isTouchable } = props
 
   if (isShowAnimation) {
     return (
       <RenderCardViewWithAnimation
-        // children={children}
         style={style}
         disabled={disabled}
         onPress={onPress}

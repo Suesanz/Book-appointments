@@ -2,11 +2,10 @@ import React from 'react'
 import { Text, View, StyleSheet, ViewStyle, TextStyle, ImageBackground } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import LottieView from "lottie-react-native"
-// import CheckAppointment from '../screens/assets/book-appointment.json'
-import CheckAppointment from '../screens/assets/check-appointment-2.json'
-import BookAppointment from '../screens/assets/book-appointment-2.json'
-import { CardView } from "../components/card-view-animated"
-import { fonts } from "../theme/font"
+import CheckAppointment from '../assets/check-appointment-2.json'
+import BookAppointment from '../assets/book-appointment-2.json'
+import { CardView } from "../../components/animated-view/animated-view"
+import { fonts } from "../../theme/font"
 import LinearGradient from 'react-native-linear-gradient'
 const styles = StyleSheet.create({
 
@@ -55,21 +54,19 @@ const styles = StyleSheet.create({
 
 export const Home = (props: { navigation: { navigate: (arg0: string) => void } }) => {
   return (
-    <ImageBackground source={require('../screens/assets/home.jpg')} style={{ flex: 1, opacity: 1 }} resizeMode={'cover'}>
+    <ImageBackground source={require('../assets/home.jpg')} style={{ flex: 1, opacity: 1 }} resizeMode={'cover'}>
       <SafeAreaView style={styles.Container}>
         <View style={{ flex: 0.2 }}>
-          <Text style={styles.WelcomeText}>Welcome,</Text>
-          {/* <Text style={styles.SubWelcomeText}>Book appointments!</Text> */}
+          <Text style={styles.WelcomeText}>Welcome</Text>
         </View>
         <View style={{ flex: 0.8 }}>
           <View style={styles.HeaderContainer}>
-            <Text style={styles.SubWelcomeText}>Book appointments!</Text>
+            <Text style={styles.SubWelcomeText}>Book appointments</Text>
           </View>
           <CardView style={[styles.BookAppointmentContainer, { backgroundColor: '#F2994A' }]} isShowAnimation={true} shadowRatio={10} onPress={() => {
             props.navigation.navigate('BookAppointmentScreen')
           }}>
             <LinearGradient colors={['#F2994A', '#F2C94C', '#F2994A']} style={{ flex: 1, justifyContent: 'center', alignItems: 'center', width: 500 }}>
-              {/* <ImageBackground source={require('../screens/assets/home.jpg')} style={{ height: 200, width: 400, justifyContent: 'center', alignItems: 'center' }}> */}
               <LottieView
                 source={BookAppointment}
                 autoPlay={true}
@@ -77,12 +74,9 @@ export const Home = (props: { navigation: { navigate: (arg0: string) => void } }
                 style={{ flex: 1 }}
               />
             </LinearGradient>
-            {/* <Image source={require('../screens/assets/card4.png')} resizeMode={'contain'} style={{ flex: 1 }}/> */}
-            {/* <Text style={styles.SubWelcomeText}>Book appointments!</Text> */}
-            {/* </ImageBackground> */}
           </CardView>
           <View style={styles.HeaderContainer}>
-            <Text style={[styles.SubWelcomeText, { color: '#134E5E' }]}>Check appointments!</Text>
+            <Text style={[styles.SubWelcomeText, { color: '#134E5E' }]}>Check appointments</Text>
           </View>
           <CardView isShowAnimation={true} style={[styles.BookAppointmentContainer]} shadowRatio={10} onPress={() => {
             props.navigation.navigate('CheckAppointmentScreen')

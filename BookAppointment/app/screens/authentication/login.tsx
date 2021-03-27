@@ -71,8 +71,8 @@ const styles = StyleSheet.create({
 })
 
 const LoginInternal = (props) => {
-  const [emailValue, setEmailValue] = useState<string>(Device.isDebug ? 'test@gmail.com' : '')
-  const [passwordValue, setPasswordValue] = useState<string>(Device.isDebug ? 'ssssss' : '')
+  const [emailValue, setEmailValue] = useState<string>('')
+  const [passwordValue, setPasswordValue] = useState<string>('')
   const [emailError, setEmailError] = useState<string>('')
   const [passwordError, setPasswordError] = useState<string>('')
 

@@ -15,7 +15,7 @@ import { SafeAreaView } from 'react-native-safe-area-context'
 import { Button, Icon, Input } from 'react-native-elements'
 import { launchImageLibrary } from 'react-native-image-picker'
 import { DrawerActions } from '@react-navigation/native'
-import * as profileActions from '../store/actions/profile-actions'
+import * as profileActions from '../../store/actions/profile-actions'
 import RadioForm, { RadioButton, RadioButtonInput, RadioButtonLabel } from 'react-native-simple-radio-button'
 import storage from '@react-native-firebase/storage'
 import { AnimatedCircularProgress } from 'react-native-circular-progress'
@@ -143,6 +143,9 @@ const ProfileInternal = (props: ProfileProps) => {
       }
       setIsImageLoading(false)
     })()
+
+    return () => { props.setError('') }
+
   }, [])
 
   const onSave = async () => {
@@ -214,10 +217,10 @@ const ProfileInternal = (props: ProfileProps) => {
             >
               {() => <Image
                 source={{ uri }}
-                resizeMode={'stretch'}
+                resizeMode={'cover'}
                 style={styles.ProfileImage}
-                defaultSource={require('./assets/image-placeholder.png')}
-                onProgress={({ nativeEvent: { loaded, total } }) => { console.log('loaded', loaded, Platform.OS); circularProgressRef.current.animate(100 / total * loaded, 500) }}
+                defaultSource={require('../assets/image-placeholder.png')}
+                onProgress={({ nativeEvent: { loaded, total } }) => { circularProgressRef.current.animate(100 / total * loaded, 500) }}
               />}
             </AnimatedCircularProgress>
 

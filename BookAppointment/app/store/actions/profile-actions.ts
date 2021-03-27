@@ -5,7 +5,7 @@ import * as actionTypes from './profile-action-types'
 export const fetchProfile = () => {
   return async (dispatch: Dispatch, getState) => {
     const state = getState()
-    console.log('state', state.auth.email)
+
     try {
       const collection = await firestore().collection('authUsers')
 
@@ -94,7 +94,7 @@ export const updateProfile = (email: string, gender: string, address: string) =>
 
 }
 
-export const setError = (errorMessage:string) => {
+export const setError = (errorMessage: string) => {
   return (dispatch: Dispatch) => {
     dispatch({ type: actionTypes.ERROR, payload: { message: errorMessage, success: false } })
   }

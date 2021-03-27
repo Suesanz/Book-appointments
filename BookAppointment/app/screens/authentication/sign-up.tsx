@@ -7,14 +7,16 @@ import {
   TextStyle,
   TouchableOpacity,
   Image,
-  KeyboardAvoidingView, ImageStyle, ActivityIndicator
+  KeyboardAvoidingView,
+  ImageStyle,
+  ActivityIndicator
 } from 'react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
+import { launchImageLibrary } from 'react-native-image-picker'
 import { Button, Icon, Input } from 'react-native-elements'
-import validate from 'validate.js'
 import * as actions from '../../store/actions/auth-actions'
 import { connect } from "react-redux"
-import { launchImageLibrary } from 'react-native-image-picker'
+import validate from 'validate.js'
 import storage from '@react-native-firebase/storage'
 
 const styles = StyleSheet.create({
@@ -50,6 +52,7 @@ const styles = StyleSheet.create({
   } as ViewStyle,
 
   FooterContainer: {
+    flex: 1,
     justifyContent: 'space-between'
   } as ViewStyle,
 
@@ -224,7 +227,7 @@ export const SignUpInternal = (props: SignUpProps) => {
           : (uri
             ? <Image
               source={{ uri }}
-              resizeMode={'stretch'}
+              resizeMode={'cover'}
               style={styles.ProfileImage}
             />
             : <>
@@ -258,6 +261,7 @@ export const SignUpInternal = (props: SignUpProps) => {
           errorMessage={emailError}
           onFocus={() => { setEmailError(''); props.setError('') }}
           autoCorrect={false}
+          autoCapitalize={'none'}
         />
         <Input
           ref={passwordInputRef}

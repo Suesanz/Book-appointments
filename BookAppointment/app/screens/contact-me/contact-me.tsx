@@ -1,10 +1,11 @@
 import React from 'react'
 import { Keyboard, StyleSheet, Text, TextStyle, View, ViewStyle } from 'react-native'
-import contactMe from './assets/contact-me.json'
+import contactMe from '../assets/contact-me.json'
 import AnimatedLottieView from 'lottie-react-native'
 import { SafeAreaView } from 'react-native-safe-area-context'
 import { Icon } from 'react-native-elements'
 import { DrawerActions } from '@react-navigation/native'
+import { WebView } from 'react-native-webview'
 
 const styles = StyleSheet.create({
 
@@ -27,7 +28,7 @@ const styles = StyleSheet.create({
   TitleContainer: {
     justifyContent: 'space-evenly',
     marginRight: -10,
-    marginLeft: 40,
+    marginLeft: 30,
     height: 150
   } as ViewStyle,
 
@@ -40,7 +41,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     fontWeight: '700',
     textAlign: 'center',
-    marginVertical: 5
+    marginVertical: 5,
   } as TextStyle,
 
   Value: {
@@ -53,7 +54,8 @@ const styles = StyleSheet.create({
     fontSize: 14,
     fontStyle: 'italic',
     textAlign: 'center',
-    lineHeight: 25
+    lineHeight: 25,
+    opacity: 0.85
   } as TextStyle,
 
   DisclaimerContainer: {
@@ -71,11 +73,15 @@ const styles = StyleSheet.create({
     marginLeft: -15,
     alignItems: 'center',
     marginBottom: 30
-  } as ViewStyle
+  } as ViewStyle,
+
+  Uri: {
+    textDecorationLine: 'underline'
+  }as TextStyle
 
 })
 
-export const ContactUs = (props) => {
+export const ContactMe = (props) => {
   return (
     <SafeAreaView style={styles.Wrapper}>
       <View style={styles.HeaderWrapper}>
@@ -106,17 +112,16 @@ export const ContactUs = (props) => {
       </View>
       <View style={{ flex: 1, flexDirection: 'row' }}>
         <View style={styles.TitleContainer}>
-          {/* <Text style={styles.Title}>Developer: </Text> */}
-          {/* <Text style={styles.Title}>Email: </Text> */}
-          {/* <Text style={styles.Title}>LinkedIn: </Text> */}
           <Icon name={'engineering'} type={'material'} />
           <Icon name={'email'} type={'zocial'}/>
+          <Icon name={'github'} type={'material-community'}/>
           <Icon name={'linkedin'} type={'material-community'}/>
         </View>
         <View style={styles.TitleContainer}>
           <Text style={styles.Value}>Sourav Yadav</Text>
           <Text style={styles.Value}>yadavsourav24071998@gmail.com</Text>
-          <Text style={styles.Value}>https://linkedin.com/in/souravyadav</Text>
+          <Text style={[styles.Value, styles.Uri]} onPress={() => { props.navigation.navigate('WebView', { uri: 'https://github.com/suesanz' }) }}>https://github.com/suesanz</Text>
+          <Text style={[styles.Value, styles.Uri]} onPress={() => { props.navigation.navigate('WebView', { uri: 'https://linkedin.com/in/souravyadav' }) }}>https://linkedin.com/in/souravyadav</Text>
         </View>
       </View>
       <AnimatedLottieView
