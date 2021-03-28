@@ -24,6 +24,15 @@
 
 ### Screens
 
+<div style="display:flex;justify-content:space-around; padding-left:10em;padding-right:10em">
+  <div>
+  <iframe width="280" height="525" src="https://www.youtube.com/embed/evnS0uQ0-8E" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+  </div>
+  <div>
+  <iframe width="280" height="525" src="https://www.youtube.com/embed/evnS0uQ0-8E" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+    </div>
+</div>
+
 1.    Splash screen
 
 
@@ -74,7 +83,7 @@
 7.1 With appointments
 
 
-<iframe src="https://www.youtube.com/embed/fAe_dhM10hM" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+<iframe width="280" height="525" src="https://www.youtube.com/embed/fAe_dhM10hM" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 
 7.2 No appointments
