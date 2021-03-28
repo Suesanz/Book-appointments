@@ -1,13 +1,13 @@
 import React, { useRef } from 'react'
 import WebView from 'react-native-webview'
 import { Icon } from 'react-native-elements'
-import { ActivityIndicator, StyleSheet, View, ViewStyle } from 'react-native'
+import { ActivityIndicator, StatusBar, StyleSheet, View, ViewStyle } from 'react-native'
 import Device from '../../utils/device'
 
 const styles = StyleSheet.create({
 
   BackIconContainer: {
-    backgroundColor: '#2189DC', paddingTop: Device.insetTop
+    backgroundColor: '#25292D', paddingTop: Device.insetTop
   } as ViewStyle,
 
   BackIcon: {
@@ -38,12 +38,18 @@ export const RNWebView = (props) => {
 
   return (
     <>
+      <StatusBar barStyle={'light-content'} translucent={true} animated={true}/>
       <ActivityIndicator ref={loaderRef} size={'large'} color={'grey'} style={{ ...StyleSheet.absoluteFillObject }}/>
       <View style={styles.BackIconContainer}>
         <Icon onPress={() => { props.navigation.goBack() }} name={'arrow-back'} style={styles.BackIcon} color={'#FFFFFF'}/>
       </View>
       <View ref={webViewContainerRef} style={styles.WebViewContainer}>
-        <WebView source={{ uri: props.route.params.uri }} style={{ flex: 1 }} onLoadStart={onLoadStart} onLoadEnd={onLoadEnd} decelerationRate={2}/>
+        <WebView
+          source={{ uri: props.route.params.uri }}
+          style={{ flex: 1 }}
+          onLoadStart={onLoadStart}
+          onLoadEnd={onLoadEnd}
+        />
       </View>
     </>
   )
