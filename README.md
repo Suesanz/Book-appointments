@@ -26,24 +26,23 @@ https://user-images.githubusercontent.com/26189041/112751729-13f86880-8fed-11eb-
 https://user-images.githubusercontent.com/26189041/112751752-325e6400-8fed-11eb-9095-3da28a7b71a1.mov
 
 5.    Book apoointment screen 
-        - Success
+      5.1 Success
 
 https://user-images.githubusercontent.com/26189041/112751773-4efa9c00-8fed-11eb-8073-be5d1aa12268.mov
 
-        - Failed
-
+      5.2    Failed
 
 https://user-images.githubusercontent.com/26189041/112751789-66d22000-8fed-11eb-8bb4-6d4887f11343.mov
 
 
 6.    Check appointment screen
 
-      - With appointments
+      6.1 With appointments
 
 
 https://user-images.githubusercontent.com/26189041/112751810-89643900-8fed-11eb-8745-a0481940ec29.mov
 
-      - No appointments
+      6.2    No appointments
 
 
 https://user-images.githubusercontent.com/26189041/112751823-95e89180-8fed-11eb-8ac3-ee866eeab7c2.mov
