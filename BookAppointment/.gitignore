@@ -61,3 +61,7 @@ buck-out/
 
 # CocoaPods
 /ios/Pods/
+
+# Firebase configs
+/android/app/google-services.json
+/ios/BookAppointment/GoogleService-Info.plist
