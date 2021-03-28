@@ -27,7 +27,7 @@
 1.    Splash screen
 
 
-<iframe width="560" height="315" src="https://www.youtube.com/embed/evnS0uQ0-8E" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>en></iframe>
+<iframe width="560" height="315" src="https://www.youtube.com/embed/evnS0uQ0-8E" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 2.    Registration screen
 
@@ -73,10 +73,10 @@
       6.1 With appointments
 
 
-<iframe width="300" height="500" src="https://www.youtube.com/embed/fAe_dhM10hM" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+<iframe src="https://www.youtube.com/embed/fAe_dhM10hM" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 
-      6.2    No appointments
+      6.2 No appointments
 
 
 <iframe width="560" height="315" src="https://www.youtube.com/embed/C3F4OQmOo3o" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
