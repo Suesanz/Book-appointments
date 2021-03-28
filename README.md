@@ -1,8 +1,8 @@
 # Book appointments
 
-###Ask for appointment from anyone by sending them mail and once they accept the invitation, you will get a notification and now you can generate a QR code which can be shown at the time of apoointment.
+### Ask for appointment from anyone by sending them mail and once they accept the invitation, you will get a notification and now you can generate a QR code which can be shown at the time of apoointment.
 
-##Setup client side
+## Setup client side
 
 1.    Clone the repo.
 2.    Run ````npm install && cd ios && pod install````.
@@ -11,7 +11,7 @@
       - [iOS](https://rnfirebase.io/#3-ios-setup)
 4.    Run ````npx react-native start````.
 
-##Setup backend side
+## Setup backend side
 
 1.    Clone the repo.
 2.    Run ````npm install````.
