@@ -8,61 +8,53 @@
 
 1.    Splash screen
 
-https://user-images.githubusercontent.com/26189041/112751683-deec1600-8fec-11eb-8927-e6f0d6993f26.mov
+<iframe width="560" height="315" src="https://www.youtube.com/embed/evnS0uQ0-8E" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>en></iframe>
 
 2.    Registration screen
 
 
-https://user-images.githubusercontent.com/26189041/112751714-06db7980-8fed-11eb-9415-8e952a2f1b73.mov
+<iframe width="560" height="315" src="https://www.youtube.com/embed/EcS-Bs7hugA" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 3.    Login screen
 
-
-https://user-images.githubusercontent.com/26189041/112751729-13f86880-8fed-11eb-9ed9-b79ba5f3d475.mov
+<iframe width="560" height="315" src="https://www.youtube.com/embed/X7rqYSgf0BQ" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 4.    Profile screen
 
-
-https://user-images.githubusercontent.com/26189041/112751752-325e6400-8fed-11eb-9095-3da28a7b71a1.mov
+<iframe width="560" height="315" src="https://www.youtube.com/embed/SnVdVuL5Sio" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 5.    Book apoointment screen 
       5.1 Success
 
-https://user-images.githubusercontent.com/26189041/112751773-4efa9c00-8fed-11eb-8073-be5d1aa12268.mov
+<iframe width="560" height="315" src="https://www.youtube.com/embed/bF5dSrJXaWo" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
       5.2    Failed
 
-https://user-images.githubusercontent.com/26189041/112751789-66d22000-8fed-11eb-8bb4-6d4887f11343.mov
+<iframe width="560" height="315" src="https://www.youtube.com/embed/yE6x2SFPYwU" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
+6.    Appointment email to appointer
 
-6.    Check appointment screen
+<iframe width="560" height="315" src="https://www.youtube.com/embed/lxt-zYL9V-8" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+
+7.    Check appointment screen
 
       6.1 With appointments
 
-
-https://user-images.githubusercontent.com/26189041/112751810-89643900-8fed-11eb-8745-a0481940ec29.mov
+<iframe width="560" height="315" src="https://www.youtube.com/embed/fAe_dhM10hM" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
       6.2    No appointments
 
-
-https://user-images.githubusercontent.com/26189041/112751823-95e89180-8fed-11eb-8ac3-ee866eeab7c2.mov
-
-
-7.    QR code screen
+<iframe width="560" height="315" src="https://www.youtube.com/embed/C3F4OQmOo3o" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 
-https://user-images.githubusercontent.com/26189041/112751845-abf65200-8fed-11eb-89c3-5bc77b922c41.mov
-
-8.    Contact me screen
+8.    QR code screen
 
 
-https://user-images.githubusercontent.com/26189041/112751850-b7497d80-8fed-11eb-9f90-0a2edab5ec67.mov
+<iframe width="560" height="315" src="https://www.youtube.com/embed/38RM9IlxXi8" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
-<iframe width="560" height="315"
-src="https://www.youtube.com/embed/MUQfKFzIOeU" 
-frameborder="0" 
-allow="accelerometer; autoplay; encrypted-media; gyroscope; picture-in-picture" 
-allowfullscreen></iframe>
+9.    Contact me screen
+
+<iframe width="560" height="315" src="https://www.youtube.com/embed/m3vDp27_OE4" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
 
 ## Setup client side
 
