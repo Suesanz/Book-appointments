@@ -22,6 +22,8 @@
 
 ## Presentation
 
+#### Note: ````The animations in below gifs might seems stuttery because gifs are converted to lesser fps to reduce their size and reduce loading time. Please wait for gifs to load.````
+
 ### Screens
 
 
