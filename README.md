@@ -22,7 +22,7 @@
 
 ## Presentation
 
-#### Note: ````The animations in below gifs might seems stuttery because gifs are converted to lesser fps to reduce their size and reduce loading time. Please wait for gifs to load.````
+#### Note: The animations in below gifs might seems stuttery because gifs are converted to lesser fps to reduce their size and reduce loading time. Please wait for gifs to load.
 
 ### Screens
 
@@ -39,9 +39,13 @@
 |-----------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------|
 ![success-screen](https://user-images.githubusercontent.com/26189041/113440131-71375400-9409-11eb-8758-330f82d9c5e3.gif)|![book-failed-screen](https://user-images.githubusercontent.com/26189041/113440119-6c72a000-9409-11eb-8462-5fa2ea408eca.gif)|
 
-|               Appointment email to appointer                                                                  |               Check appointment Screen                                                                               |                          No appointment Screen                                                                             |
-|---------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------|
-|![email](https://user-images.githubusercontent.com/26189041/113440537-3eda2680-940a-11eb-805b-821177517f02.png)|![check-screen](https://user-images.githubusercontent.com/26189041/113440145-75fc0800-9409-11eb-8273-df147aaffdc7.gif)|![check-empty-screen](https://user-images.githubusercontent.com/26189041/113440141-75637180-9409-11eb-9fe9-910efeee4b9a.gif)|
+|               Appointment email to appointer                                                                  |
+|---------------------------------------------------------------------------------------------------------------|
+|![email](https://user-images.githubusercontent.com/26189041/113440537-3eda2680-940a-11eb-805b-821177517f02.png)|
+
+|               Check appointment Screen                                                                               |                          No appointment Screen                                                                             |
+|----------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------|
+|![check-screen](https://user-images.githubusercontent.com/26189041/113440145-75fc0800-9409-11eb-8273-df147aaffdc7.gif)|![check-empty-screen](https://user-images.githubusercontent.com/26189041/113440141-75637180-9409-11eb-9fe9-910efeee4b9a.gif)|
 
 |               QR code Screen                                                                                      |               Contact me Screen                                                                                           |
 |-------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------|
