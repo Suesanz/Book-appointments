@@ -2,62 +2,6 @@
 
 ### Ask for appointment from anyone by sending them mail and once they accept the invitation, you will get a notification and now you can generate a QR code which can be shown at the time of apoointment.
 
-## Presentation
-
-### Screens
-
-1.    Splash screen
-
-https://user-images.githubusercontent.com/26189041/112751683-deec1600-8fec-11eb-8927-e6f0d6993f26.mov
-
-2.    Registration screen
-
-
-https://user-images.githubusercontent.com/26189041/112751714-06db7980-8fed-11eb-9415-8e952a2f1b73.mov
-
-3.    Login screen
-
-
-https://user-images.githubusercontent.com/26189041/112751729-13f86880-8fed-11eb-9ed9-b79ba5f3d475.mov
-
-4.    Profile screen
-
-
-https://user-images.githubusercontent.com/26189041/112751752-325e6400-8fed-11eb-9095-3da28a7b71a1.mov
-
-5.    Book apoointment screen 
-      5.1 Success
-
-https://user-images.githubusercontent.com/26189041/112751773-4efa9c00-8fed-11eb-8073-be5d1aa12268.mov
-
-      5.2    Failed
-
-https://user-images.githubusercontent.com/26189041/112751789-66d22000-8fed-11eb-8bb4-6d4887f11343.mov
-
-
-6.    Check appointment screen
-
-      6.1 With appointments
-
-
-https://user-images.githubusercontent.com/26189041/112751810-89643900-8fed-11eb-8745-a0481940ec29.mov
-
-      6.2    No appointments
-
-
-https://user-images.githubusercontent.com/26189041/112751823-95e89180-8fed-11eb-8ac3-ee866eeab7c2.mov
-
-
-7.    QR code screen
-
-
-https://user-images.githubusercontent.com/26189041/112751845-abf65200-8fed-11eb-89c3-5bc77b922c41.mov
-
-8.    Contact me screen
-
-
-https://user-images.githubusercontent.com/26189041/112751850-b7497d80-8fed-11eb-9f90-0a2edab5ec67.mov
-
 
 ## Setup client side
 
@@ -74,3 +18,36 @@ https://user-images.githubusercontent.com/26189041/112751850-b7497d80-8fed-11eb-
 2.    Run ````npm install````.
 3.    Setup [Firebase functions](https://firebase.google.com/docs/functions/get-started).
 4.    Run ````firebase emulators start:functions````.
+
+
+## Presentation
+
+#### Note: The animations in below gifs might seems stuttery because gifs are converted to lesser fps to reduce their size and reduce loading time. Please wait for gifs to load.
+
+### Screens
+
+
+|               Splash Screen                                                                                           |            Registration Screen                                                                                              |
+|-----------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------|
+|![splash-screen](https://user-images.githubusercontent.com/26189041/113440116-68df1900-9409-11eb-8f5b-ae10397f2f8d.gif)|![registration-screen](https://user-images.githubusercontent.com/26189041/113440181-8613e780-9409-11eb-8a05-85c9696afd9c.gif)|
+
+|               Login Screen                                                                                            |            Profile Screen                                                                                              |
+|-----------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------|
+|![login-screen](https://user-images.githubusercontent.com/26189041/113440164-7dbbac80-9409-11eb-8609-d8eda89c6b91.gif) |![profile-screen](https://user-images.githubusercontent.com/26189041/113440168-7e544300-9409-11eb-8345-d23b5cbf15f3.gif)|
+
+|               Book appointment success Screen                                                                         |               Book appointment failed Screen                                                                             |
+|-----------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------|
+![success-screen](https://user-images.githubusercontent.com/26189041/113440131-71375400-9409-11eb-8758-330f82d9c5e3.gif)|![book-failed-screen](https://user-images.githubusercontent.com/26189041/113440119-6c72a000-9409-11eb-8462-5fa2ea408eca.gif)|
+
+|               Appointment email to appointer                                                                  |
+|---------------------------------------------------------------------------------------------------------------|
+|![email](https://user-images.githubusercontent.com/26189041/113440537-3eda2680-940a-11eb-805b-821177517f02.png)|
+
+|               Check appointment Screen                                                                               |                          No appointment Screen                                                                             |
+|----------------------------------------------------------------------------------------------------------------------|----------------------------------------------------------------------------------------------------------------------------|
+|![check-screen](https://user-images.githubusercontent.com/26189041/113440145-75fc0800-9409-11eb-8273-df147aaffdc7.gif)|![check-empty-screen](https://user-images.githubusercontent.com/26189041/113440141-75637180-9409-11eb-9fe9-910efeee4b9a.gif)|
+
+|               QR code Screen                                                                                      |               Contact me Screen                                                                                           |
+|-------------------------------------------------------------------------------------------------------------------|---------------------------------------------------------------------------------------------------------------------------|
+|![qr-screen](https://user-images.githubusercontent.com/26189041/113440486-279b3900-940a-11eb-9ee7-203132876203.gif)|![contact-me-screen](https://user-images.githubusercontent.com/26189041/113440161-7bf1e900-9409-11eb-8b71-70293da06bd5.gif)|
+
