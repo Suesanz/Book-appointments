@@ -21,7 +21,6 @@ export const AuthReducer = (state = initialState, action) => {
     }
 
     case actionTypes.LOGIN: {
-      console.log('LOGIN PAYLOAD', JSON.stringify(action))
       return { ...state, ...action.payload }
     }
 

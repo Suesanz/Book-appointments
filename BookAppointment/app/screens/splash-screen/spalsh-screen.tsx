@@ -38,7 +38,6 @@ export const SplashScreen = (props) => {
         source={book}
         autoPlay={true}
         onAnimationFinish={() => {
-          console.log('setOnAnimationFinished')
           props.setOnAnimationFinished()
         }}
         style={styles.Lottie}

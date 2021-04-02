@@ -1,20 +1,19 @@
 import React, { useEffect, useRef, useState } from 'react'
-import { DefaultTheme, NavigationContainer, DarkTheme } from '@react-navigation/native'
+import { DarkTheme, DefaultTheme, NavigationContainer } from '@react-navigation/native'
 import { SafeAreaProvider } from 'react-native-safe-area-context'
 import { enableScreens } from 'react-native-screens'
 import auth from '@react-native-firebase/auth'
 import AuthNavigator from './app/navigation/app-navigator'
-import { combineReducers, createStore, applyMiddleware } from "redux"
+import { applyMiddleware, combineReducers, createStore } from 'redux'
 import ReduxThunk from 'redux-thunk'
 import { Provider } from 'react-redux'
-import { AuthReducer } from "./app/store/reducers/auth-reducer"
-import { initFonts } from "./app/theme/font"
-import * as actionTypes from "./app/store/actions/auth-action-types"
+import { AuthReducer } from './app/store/reducers/auth-reducer'
+import { initFonts } from './app/theme/font'
+import * as actionTypes from './app/store/actions/auth-action-types'
 import messaging from '@react-native-firebase/messaging'
-import { Alert, LogBox, useColorScheme, View, YellowBox } from 'react-native'
+import { Alert, LogBox, useColorScheme } from 'react-native'
 import firestore from '@react-native-firebase/firestore'
 import { ProfileReducer } from './app/store/reducers/profile-reducer'
-import AnimatedLottieView from 'lottie-react-native'
 import { SplashScreen } from './app/screens'
 
 enableScreens()
@@ -32,7 +31,7 @@ const MyDarkTheme = {
     ...DarkTheme.colors,
     backgroundColor: '#000',
     text: '#FFFFFF'
-  },
+  }
 }
 
 const MyTheme = {
@@ -41,7 +40,7 @@ const MyTheme = {
     ...DefaultTheme.colors,
     backgroundColor: '#FFFFFF',
     text: '#000'
-  },
+  }
 }
 
 export default function App() {
@@ -53,7 +52,7 @@ export default function App() {
   const onAuthStateChanged = async (user) => {
     if (user) {
       const userInfoFromFirestore = {
-        username: null,
+        username: null
       }
       const dataFromFirestore = await firestore().collection('authUsers').get()
 
@@ -114,7 +113,7 @@ export default function App() {
 
   async function checkApplicationPermission() {
     const authorizationStatus = await messaging().requestPermission({
-      provisional: true,
+      provisional: true
     })
 
     if (authorizationStatus === messaging.AuthorizationStatus.AUTHORIZED) {
@@ -149,7 +148,7 @@ export default function App() {
     <Provider store={store}>
       <SafeAreaProvider>
         <NavigationContainer theme={scheme === 'dark' ? MyDarkTheme : MyTheme}>
-          <AuthNavigator />
+          <AuthNavigator/>
         </NavigationContainer>
       </SafeAreaProvider>
     </Provider>

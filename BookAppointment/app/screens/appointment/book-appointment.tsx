@@ -195,16 +195,10 @@ const BookAppointmentInternal = (props) => {
 
       try {
         const url = `http://localhost:5001/book-appointments-37a0e/us-central1/sendMail?destEmail=${emailValue}&destName=${nameValue}&senderName=${props.username}&senderEmail=${props.email}&time=${time}`
-        console.log('url', url)
-        const response:AxiosResponse = await axios.get(url)
-
-        console.log(response.status)
-        console.log(response.data)
-        console.log(response.statusText)
+        const response: AxiosResponse = await axios.get(url)
         setModalContent({ message: 'Appointment request sent successfully. Go to check appointment screen to view status of your appointment.', success: true })
       } catch (error) {
         setModalContent({ message: 'Appointment request failed. Please try again or contact support.', success: false })
-        console.log('Error in sending request', error.message)
       }
 
       setModalVisible(true)

@@ -85,7 +85,6 @@ export const login = (email: string, password: string) => {
       })
 
     } catch (error) {
-      console.log('Error in login: ', error.message)
       let errorMessage = 'The credentials are invalid or account is blocked!'
 
       if (['auth/auth/invalid-email', 'auth/wrong-password', 'auth/user-not-found'].includes(error.code)) {
@@ -109,7 +108,6 @@ export const login = (email: string, password: string) => {
 export const logout = () => {
   return async (dispatch: Dispatch) => {
     const data = await auth().signOut()
-    console.log('Logout data', JSON.stringify(data))
 
     dispatch ({
       type: actionTypes.LOGOUT,

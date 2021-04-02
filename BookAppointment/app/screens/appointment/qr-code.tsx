@@ -1,10 +1,10 @@
 import React, { useEffect, useRef, useState } from 'react'
 import { SafeAreaView } from 'react-native-safe-area-context'
-import { Image, ImageStyle, StyleSheet, Text, TextStyle, View, ViewStyle } from "react-native"
-import LottieView from "lottie-react-native"
-import loader from "../assets/loading.json"
-import { Icon } from "react-native-elements"
-import { DrawerActions } from "@react-navigation/native"
+import { Image, ImageStyle, StyleSheet, Text, TextStyle, View, ViewStyle } from 'react-native'
+import LottieView from 'lottie-react-native'
+import loader from '../assets/loading.json'
+import { Icon } from 'react-native-elements'
+import { DrawerActions } from '@react-navigation/native'
 
 const styles = StyleSheet.create({
 
@@ -46,7 +46,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
     textAlign: 'center',
     color: '#9EABB5'
-  } as TextStyle,
+  } as TextStyle
 
 })
 
@@ -58,33 +58,6 @@ export const QRCode = (props) => {
   const lottieRef = useRef<LottieView>(null)
 
   useEffect(() => {
-    // (async () => {
-    //   try {
-    //     // const data = {
-    //     //   name: 'John',
-    //     //   id: 1,
-    //     //   appointerName: 'Sam'
-    //     // }
-    //     const data = props.route.params
-    //     const url = `https://api.qrserver.com/v1/create-qr-code/?data={
-    //       name: 'John',
-    //       id: 1,
-    //       appointerName: 'Sam'
-    //     }&size=200x200`
-    //     console.log('url', url)
-    //     const response: AxiosResponse = await axios.get(url, { responseType: "blob" })
-    //     if (response.status === 200) {
-    //
-    //     }
-    //     console.log('response', JSON.stringify(response.data))
-    //     // setList(response.data)
-    //   } catch (error) {
-    //     console.log('Error in sending request', error.message)
-    //   }
-    // })()
-  }, [])
-
-  useEffect(() => {
     if (!loading) {
       qrImageRef.current.setNativeProps({ style: { opacity: 1 } })
       lottieRef.current && lottieRef.current.reset()
@@ -93,16 +66,12 @@ export const QRCode = (props) => {
 
   return (
     <SafeAreaView style={styles.Container}>
-      {/* <View style={styles.HeaderContainer}> */}
-      {/*  <Text style={styles.WelcomeText}>QR Code,</Text> */}
-      {/*  <Text style={styles.SubWelcomeText}>Check appointment details!</Text> */}
-      {/* </View> */}
       <View style={{ flexDirection: 'row', marginLeft: -15, alignItems: 'center', marginBottom: 60 }}>
-        <Icon name={'menu'} type={'simple-line-icon'} size={25} style={{ marginTop: 0 }} onPress={() => { props.navigation.dispatch(DrawerActions.toggleDrawer()) }}/>
+        <Icon name={'menu'} type={'simple-line-icon'} size={25} style={{ marginTop: 0 }}
+					  onPress={() => { props.navigation.dispatch(DrawerActions.toggleDrawer()) }}/>
 
         <View style={styles.HeaderContainer}>
           <Text style={styles.WelcomeText}>QR Code</Text>
-          {/* <Text style={styles.SubWelcomeText}>Check all your appointments!</Text> */}
         </View>
       </View>
       <View style={styles.QRCodeContainer}>
@@ -118,8 +87,7 @@ export const QRCode = (props) => {
         <Image
           ref={qrImageRef}
           source={{
-            uri: `https://api.qrserver.com/v1/create-qr-code/?data=${qrImageUri}&size=220x220`,
-          // cache: 'only-if-cached'
+            uri: `https://api.qrserver.com/v1/create-qr-code/?data=${qrImageUri}&size=220x220`
           }}
           onLoadStart={() => { setLoading(true) }}
           onLoadEnd={() => { setLoading(false) }}
@@ -129,7 +97,7 @@ export const QRCode = (props) => {
       </View>
 
       <Text style={styles.FooterText}>
-          Show this QR code at the time of appointment.
+				Show this QR code at the time of appointment.
       </Text>
 
     </SafeAreaView>

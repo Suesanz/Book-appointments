@@ -25,6 +25,7 @@ import { Icon } from 'react-native-elements'
 import loader from '../assets/loading.json'
 import { connect } from 'react-redux'
 import axios, { AxiosResponse } from 'axios'
+import mockData from './mock-appointments.json'
 
 const cards = {
   0: require('../assets/card1.png'),
@@ -98,47 +99,7 @@ export const CheckAppointmentInternal = (props) => {
 
   const [isLoading, setLoading] = useState(true)
   const [isRefreshing, setRefreshing] = useState(false)
-  const [list, setList] = useState<{ status: number; appointerName: string, appointmentTime: string }[]>([
-    {
-      appointerName: 'Jim Helpert',
-      appointmentTime: '4:00 PM, April 1, 2021',
-      status: 200,
-    }, {
-      appointerName: 'Pam Beasely',
-      appointmentTime: '5:00 PM, April 2, 2021',
-      status: 200,
-    }, {
-      appointerName: 'Dwight Shrute',
-      appointmentTime: '6:00 PM, April 3, 2021',
-      status: 300,
-    },
-    {
-      appointerName: 'Karen',
-      appointmentTime: '7:00 PM, April 4, 2021',
-      status: 404,
-    }, {
-      appointerName: 'Phylis',
-      appointmentTime: '2:00 PM, April 5, 2021',
-      status: 404,
-    }, {
-      appointerName: 'Stanley',
-      appointmentTime: '1:00 PM, April 6, 2021',
-      status: 300,
-    },
-    // {
-    //   appointerName: 'John7',
-    //   status: 200,
-    //   id: 1
-    // }, {
-    //   appointerName: 'John8',
-    //   status: 200,
-    //   id: 1
-    // }, {
-    //   appointerName: 'John9',
-    //   status: 200,
-    //   id: 1
-    // }
-  ])
+  const [list, setList] = useState<{ status: number; appointerName: string, appointmentTime: string }[]>(__DEV__ ? mockData : [])
 
   const getList = async () => {
     try {
@@ -146,8 +107,7 @@ export const CheckAppointmentInternal = (props) => {
       const response: AxiosResponse = await axios.get(url)
       setList([...list, ...response.data])
     } catch (error) {
-      console.log('Error in sending request. Message: ', error.message)
-      console.log('Error in sending request. Data: ', error.data)
+      console.warn('Error in sending request. Message: ', error.message)
     }
   }
 
@@ -230,7 +190,7 @@ export const CheckAppointmentInternal = (props) => {
                 </View>
 
               </View>
-              {isActive && <Text style={{ fontSize: 12, color: '#ffffff', alignSelf: 'flex-end' }}>Get QR code</Text>}
+              {isActive && <Text style={{ fontSize: 14, color: '#FFFFFF', alignSelf: 'flex-end', fontWeight: '800' }}>Get QR code</Text>}
             </View>
           </ImageBackground>
         </Animated.View>
