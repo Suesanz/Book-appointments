@@ -69,3 +69,5 @@ buck-out/
 # Firebase configs
 /android/app/google-services.json
 /ios/BookAppointment/GoogleService-Info.plist
+/firebase/firestore-debug.log
+/firebase/ui-debug.log
