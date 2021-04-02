@@ -15,7 +15,7 @@
 ## Setup backend side
 
 1.    Clone the repo.
-2.    In firebase directory, run ````npm install````.
+2.    In service/firebase directory, run ````npm install````.
 3.    Setup [Firebase functions](https://firebase.google.com/docs/functions/get-started).
 4.    Run ````firebase emulators start:functions````.
 
