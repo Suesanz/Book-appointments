@@ -1,6 +1,6 @@
 # Book appointments
 
-### Ask for appointment from anyone by sending them mail and once they accept the invitation, you will get a notification and now you can generate a QR code which can be shown at the time of apoointment.
+### Ask for appointment from anyone by sending them mail and once they accept the invitation, you will get a notification and now you can generate a QR code which can be shown at the time of appointment.
 
 
 ## Setup client side
@@ -15,7 +15,7 @@
 ## Setup backend side
 
 1.    Clone the repo.
-2.    Run ````npm install````.
+2.    In firebase directory, run ````npm install````.
 3.    Setup [Firebase functions](https://firebase.google.com/docs/functions/get-started).
 4.    Run ````firebase emulators start:functions````.
 
@@ -29,7 +29,7 @@
 
 |               Splash Screen                                                                                           |            Registration Screen                                                                                              |
 |-----------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------|
-|![splash-screen](https://user-images.githubusercontent.com/26189041/113440116-68df1900-9409-11eb-8f5b-ae10397f2f8d.gif)|![registration-screen](https://user-images.githubusercontent.com/26189041/113440181-8613e780-9409-11eb-8a05-85c9696afd9c.gif)|
+|![splash-screen](https://user-images.githubusercontent.com/26189041/113442900-882c7500-940e-11eb-9783-e6534096c68d.gif)|![registration-screen](https://user-images.githubusercontent.com/26189041/113440181-8613e780-9409-11eb-8a05-85c9696afd9c.gif)|
 
 |               Login Screen                                                                                            |            Profile Screen                                                                                              |
 |-----------------------------------------------------------------------------------------------------------------------|------------------------------------------------------------------------------------------------------------------------|
